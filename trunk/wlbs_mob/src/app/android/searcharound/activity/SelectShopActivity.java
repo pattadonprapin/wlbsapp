@@ -15,7 +15,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import app.android.searcharound.R;
 import app.android.searcharound.adapter.ListViewShopAdapter;
-import app.android.searcharound.loader.ILoaderResultListener;
+import app.android.searcharound.loader.IProcessDataAsyncListener;
 import app.android.searcharound.loader.LoadAllShopInfoAsync;
 import app.android.searcharound.model.ListViewShop;
 import app.android.searcharound.utility.AlertBox;
@@ -23,7 +23,7 @@ import app.android.searcharound.utility.NavigationService;
 import app.android.searcharound.utility.PREFS_CODE;
 import app.android.searcharound.utility.SecurePreferences;
 
-public class SelectShopActivity extends Activity implements IActivityDataSetter, ILoaderResultListener{
+public class SelectShopActivity extends Activity implements IActivityDataSetter, IProcessDataAsyncListener{
 
 	private ListView listViewShop;
 	private ListViewShopAdapter listViewShopAdapter;
@@ -86,7 +86,7 @@ public class SelectShopActivity extends Activity implements IActivityDataSetter,
 				
 				LoadAllShopInfoAsync loader = new LoadAllShopInfoAsync(ownerId, cwaitLayout);				
 				loader.execute();
-				loader.setLoaderResultListener(this);
+				loader.setProcessDataAsyncListener(this);
 			}
 		}
 		catch (Exception e)

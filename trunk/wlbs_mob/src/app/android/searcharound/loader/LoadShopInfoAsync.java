@@ -12,7 +12,7 @@ public class LoadShopInfoAsync extends AsyncTask<Void, Void, JSONObject>
 {
 	private int shopId;
 	private LinearLayout cwaitLayout;
-	private ILoaderResultListener listener;
+	private IProcessDataAsyncListener listener;
 	
 	
 	public LoadShopInfoAsync(int shopId)
@@ -26,7 +26,7 @@ public class LoadShopInfoAsync extends AsyncTask<Void, Void, JSONObject>
 		this.cwaitLayout = cwaitLayout;
 	}
 	
-	public void setLoaderResultListener(ILoaderResultListener listener)
+	public void setProcessDataAsyncListener(IProcessDataAsyncListener listener)
 	{
 		this.listener = listener;
 	}

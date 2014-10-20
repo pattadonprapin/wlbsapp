@@ -12,12 +12,18 @@ public class RegisterOwnerAsync extends AsyncTask<Void, Void, Void>
 	private LinearLayout cwaitLayout;
 	private String email, password, phoneNo, firstname, lastname, citizenId;
 	private int responseCode;
+	private IProcessDataAsyncListener listener;
 	
 	public RegisterOwnerAsync(LinearLayout cwaitLayout)
 	{
 		this.cwaitLayout = cwaitLayout;
 	}
 
+	public void setProcessDataAsyncListener(IProcessDataAsyncListener listener)
+	{
+		this.listener = listener;
+	}
+	
 	public void setEmail(String email)
 	{
 		this.email = email;

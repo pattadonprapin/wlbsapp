@@ -2,6 +2,8 @@ package app.android.searcharound.activity;
 
 import java.io.File;
 
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -21,16 +23,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import app.android.searcharound.R;
+import app.android.searcharound.loader.IProcessDataAsyncListener;
 import app.android.searcharound.loader.SaveShopAsync;
 import app.android.searcharound.utility.AlertBox;
+import app.android.searcharound.utility.ImgLoader;
 import app.android.searcharound.utility.NavigationService;
 import app.android.searcharound.utility.OPCODE;
 import app.android.searcharound.utility.PREFS_CODE;
 import app.android.searcharound.utility.SecurePreferences;
 
-public class SaveShopActivity extends Activity implements IActivityDataSetter
+public class SaveShopActivity extends Activity implements IActivityDataSetter, IProcessDataAsyncListener
 {
 	private static final int SELECTED_PICURE = 1;
 	
@@ -41,12 +46,15 @@ public class SaveShopActivity extends Activity implements IActivityDataSetter
 	private EditText txtboxLatitude;
 	private EditText txtboxLongitude;
 	private ImageView imgViewShop;
+	private ProgressBar spinner;
 	
 	private LinearLayout cwaitLayout;
 	
 	private TextView linkGenLocation;
 	
 	private Button btnSave;
+	
+	private boolean EDIT_STATE = false;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -60,6 +68,7 @@ public class SaveShopActivity extends Activity implements IActivityDataSetter
 		txtboxLatitude = (EditText) findViewById(R.id.txtboxLatitude);
 		txtboxLongitude = (EditText) findViewById(R.id.txtBoxLongitude);
 		
+		spinner = (ProgressBar) findViewById(R.id.imgProgress);
 		linkGenLocation = (TextView) findViewById(R.id.linkGenLocation);
 		linkGenLocation.setOnClickListener(new OnClickGenLocationListner());
 		
@@ -70,6 +79,13 @@ public class SaveShopActivity extends Activity implements IActivityDataSetter
 		imgViewShop.setOnClickListener(new OnClickAddPictureListener());
 		
 		cwaitLayout = (LinearLayout) findViewById(R.id.cwait_layout);
+		
+		Bundle param = this.getIntent().getExtras();
+		if (param != null)
+		{
+			EDIT_STATE = true;
+			setData();
+		}
 		
 	}
 	
@@ -155,6 +171,13 @@ public class SaveShopActivity extends Activity implements IActivityDataSetter
 				file = new File(picFilePath);
 			
 			SaveShopAsync handler = new SaveShopAsync(cwaitLayout);
+			
+			if (EDIT_STATE)
+			{
+				Bundle param = this.getIntent().getExtras();
+				int shopId = param.getInt("ShopId");
+				handler.setShopId(shopId);
+			}
 			handler.setShopName(shopName);
 			handler.setPhoneNo(phoneNumber);
 			handler.setLatitude(latitude);
@@ -162,18 +185,32 @@ public class SaveShopActivity extends Activity implements IActivityDataSetter
 			handler.setAddress(address);
 			handler.setPictureFile(file);
 			handler.setShopType(1);
-			handler.setOwnerId(Integer.parseInt(ownerId));
-			
+			handler.setOwnerId(Integer.parseInt(ownerId));	
+			handler.setProcessDataAsyncListener(this);
 			handler.execute();
-			
-			int responseCode = handler.getResponseCode();
-			
-			switch (responseCode) {
+		}
+		catch (Exception e)
+		{
+			AlertBox.showErrorMessage(SaveShopActivity.this, "(Network unavailable)");
+			onUnlock();
+		}
+		
+	}
+	
+	@Override
+	public void onProcessEvent(int responseCode, JSONObject response) 
+	{
+		switch (responseCode) 
+		{
 			case -1:
 				AlertBox.showErrorMessage(SaveShopActivity.this, "(Network unavailable)");
 				break;
 			case OPCODE.SERVER_SAVE_SUCCESS_RESPONSE:
-				NavigationService.getInstance().navigate(SaveShopActivity.this, SelectShopActivity.class);
+				if (EDIT_STATE)
+					NavigationService.getInstance().navigate(SaveShopActivity.this, MainShopViewActivity.class);
+				else
+					NavigationService.getInstance().navigate(SaveShopActivity.this, SelectShopActivity.class);
+					
 				onClear();
 				break;
 
@@ -181,13 +218,7 @@ public class SaveShopActivity extends Activity implements IActivityDataSetter
 				AlertBox.showMessageBox(SaveShopActivity.this, "Unsuccesfully",
 						"Some input data has wrong format !");
 				break;
-
-			}
-		}
-		catch (Exception e)
-		{
-			AlertBox.showErrorMessage(SaveShopActivity.this, "(Network unavailable)");
-		}
+		}	
 		onUnlock();
 	}
 	
@@ -204,8 +235,8 @@ public class SaveShopActivity extends Activity implements IActivityDataSetter
 	}
 	
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
+	protected void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
 		super.onActivityResult(requestCode, resultCode, data);
 		
 		switch (requestCode) {
@@ -224,9 +255,9 @@ public class SaveShopActivity extends Activity implements IActivityDataSetter
 					cursor.close();
 					
 					Bitmap bitmap = BitmapFactory.decodeFile(filePath);
-					Bitmap bitmapResize = Bitmap.createScaledBitmap(bitmap, 200, 200, true);
+					//Bitmap bitmapResize = Bitmap.createScaledBitmap(bitmap, 200, 200, true);
 				
-					Drawable d = new BitmapDrawable(getResources(), bitmapResize);
+					Drawable d = new BitmapDrawable(getResources(), bitmap);
 				
 					imgViewShop.setImageDrawable(d);
 				}
@@ -235,12 +266,6 @@ public class SaveShopActivity extends Activity implements IActivityDataSetter
 		default:
 			break;
 		}
-	}
-
-	@Override
-	public void setData() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -266,4 +291,30 @@ public class SaveShopActivity extends Activity implements IActivityDataSetter
 		imgViewShop.setImageResource(R.drawable.insert_image);
 		
 	}
+
+	@Override
+	public void setData() 
+	{
+		Bundle param = this.getIntent().getExtras();
+		
+		String shopName = param.getString("ShopName");
+		String phoneNo = param.getString("PhoneNumber");
+		String address = param.getString("Address");
+		String latitude = param.getString("Latitude");
+		String longitude = param.getString("Longitude");
+		String imgURL = param.getString("ImageURL");
+		
+		txtboxShopName.setText(shopName);
+		txtboxPhoneNo.setText(phoneNo);
+		txtboxAddress.setText(address);
+		txtboxLatitude.setText(latitude);
+		txtboxLongitude.setText(longitude);
+		
+		ImgLoader imgLoader = new ImgLoader(imgURL, imgViewShop, this, spinner);
+		imgLoader.showImageOnFail(R.drawable.insert_image);
+		imgLoader.load();
+		
+	}
+	
+	
 }

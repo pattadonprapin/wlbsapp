@@ -11,7 +11,7 @@ public class LoadAuthInfoAsync extends AsyncTask<Void, Void, JSONObject>
 {
 	private String email, password;
 	private LinearLayout cwaitLayout;
-	private ILoaderResultListener listener;
+	private IProcessDataAsyncListener listener;
 	
 	public LoadAuthInfoAsync(String email, String password, LinearLayout cwaitLayout)
 	{
@@ -20,7 +20,7 @@ public class LoadAuthInfoAsync extends AsyncTask<Void, Void, JSONObject>
 		this.cwaitLayout = cwaitLayout;
 	}
 
-	public void setLoaderResultListener(ILoaderResultListener listener)
+	public void setProcessDataAsyncListener(IProcessDataAsyncListener listener)
 	{
 		this.listener = listener;
 	}
