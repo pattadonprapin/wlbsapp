@@ -1,6 +1,8 @@
 package app.android.searcharound.activity;
 
 
+import org.json.JSONObject;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import app.android.searcharound.R;
+import app.android.searcharound.loader.IProcessDataAsyncListener;
 import app.android.searcharound.loader.RegisterOwnerAsync;
 import app.android.searcharound.utility.AlertBox;
 import app.android.searcharound.utility.NavigationService;
@@ -16,7 +19,7 @@ import app.android.searcharound.utility.OPCODE;
 import app.android.searcharound.utility.PREFS_CODE;
 import app.android.searcharound.utility.SecurePreferences;
 
-public class RegisterActivity extends Activity implements IActivityDataSetter{
+public class RegisterActivity extends Activity implements IActivityDataSetter, IProcessDataAsyncListener{
 
 	private TextView txtboxEmail;
 	private TextView txtboxPassword;
@@ -78,11 +81,22 @@ public class RegisterActivity extends Activity implements IActivityDataSetter{
 			handler.setLastname(lastname);
 			handler.setPhoneNo(phoneNo);
 			handler.setCitizenId(citizenId);
-			
-			handler.execute();
-			
-			int responseCode = handler.getReponseCode();
-			switch (responseCode) {
+			handler.setProcessDataAsyncListener(this);
+			handler.execute();			
+		}
+		catch (Exception e)
+		{
+			AlertBox.showErrorMessage(RegisterActivity.this, "(Network unavailable)");
+			onUnlock();
+		}
+		
+	}
+	
+
+	@Override
+	public void onProcessEvent(int responseCode, JSONObject response) {
+		switch (responseCode) 
+		{
 			case -1:
 				AlertBox.showErrorMessage(RegisterActivity.this, "(Network unavailable )");
 				break;
@@ -90,7 +104,7 @@ public class RegisterActivity extends Activity implements IActivityDataSetter{
 			case OPCODE.SERVER_SAVE_SUCCESS_RESPONSE:
 				onSuccessful();
 				break;
-
+	
 			case OPCODE.SERVER_SAVE_UNSUCCESS_RESPONSE:
 				AlertBox.showErrorMessage(RegisterActivity.this, "");
 				break;
@@ -98,11 +112,6 @@ public class RegisterActivity extends Activity implements IActivityDataSetter{
 			case OPCODE.SERVER_ERROR_DUPLICATE_EMAIL_RESPONSE:
 				txtboxEmail.setError("This email is already registered.");
 				break;
-			}
-		}
-		catch (Exception e)
-		{
-			AlertBox.showErrorMessage(RegisterActivity.this, "(Network unavailable)");
 		}
 		onUnlock();
 	}
@@ -148,5 +157,6 @@ public class RegisterActivity extends Activity implements IActivityDataSetter{
 		txtboxPhoneNo.setError(null);
 		txtboxReTypePass.setError(null);
 	}
+
 
 }

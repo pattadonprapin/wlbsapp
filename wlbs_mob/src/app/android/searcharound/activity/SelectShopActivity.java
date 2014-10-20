@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,12 +19,15 @@ import app.android.searcharound.adapter.ListViewShopAdapter;
 import app.android.searcharound.loader.IProcessDataAsyncListener;
 import app.android.searcharound.loader.LoadAllShopInfoAsync;
 import app.android.searcharound.model.ListViewShop;
+import app.android.searcharound.service.ShopOwnerService;
 import app.android.searcharound.utility.AlertBox;
 import app.android.searcharound.utility.NavigationService;
+import app.android.searcharound.utility.OPCODE;
 import app.android.searcharound.utility.PREFS_CODE;
 import app.android.searcharound.utility.SecurePreferences;
 
-public class SelectShopActivity extends Activity implements IActivityDataSetter, IProcessDataAsyncListener{
+public class SelectShopActivity extends Activity implements IActivityDataSetter, 
+IProcessDataAsyncListener, ListViewShopAdapter.OnClickRemoveCallBack{
 
 	private ListView listViewShop;
 	private ListViewShopAdapter listViewShopAdapter;
@@ -41,7 +45,7 @@ public class SelectShopActivity extends Activity implements IActivityDataSetter,
 		cwaitLayout = (LinearLayout) findViewById(R.id.cwait_layout);
 		
 		listViewShopAdapter = new ListViewShopAdapter(this);
-		
+		listViewShopAdapter.setOnClickRemoveCallBack(this);		
 		listViewShop.setOnItemClickListener(new OnClickItemAction());
 		setData();
 	}
@@ -148,6 +152,49 @@ public class SelectShopActivity extends Activity implements IActivityDataSetter,
 		
 	}
 
+
+	@Override
+	public void processOnRemoveCallback(int position) 
+	{
+		 final int p = position;
+		 
+		 
+		 AlertBox.showConfirmMessage(this, "Confirmation", 
+				 "Are you sure you want to delete this shop?", 
+				 new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						onRemoveShop(p);					
+					}
+				}, null);	
+	}
+	
+	public void onRemoveShop(int position)
+	{
+		long lShopId = listViewShopAdapter.getItem(position).id;
+		int shopId = Integer.parseInt(lShopId+"");
+			
+		try
+		{
+			ShopOwnerService service = new ShopOwnerService();
+			JSONObject response = service.removeShop(shopId);
+			
+			int code = response.getInt("ResponseCode");
+			if (code == OPCODE.SERVER_REMOVE_SUCCESS_RESPONSE)
+			{
+				listViewShopAdapter.removeItem(position);
+			}
+			else
+			{
+				AlertBox.showErrorMessage(this, "(Network unavailable)");
+			}
+		}
+		catch (Exception e)
+		{
+			AlertBox.showErrorMessage(this, "(Network unavailable)");
+		}
+	}
 
 	
 }

@@ -7,11 +7,10 @@ import android.view.View;
 import android.widget.LinearLayout;
 import app.android.searcharound.service.ShopOwnerService;
 
-public class RegisterOwnerAsync extends AsyncTask<Void, Void, Void>
+public class RegisterOwnerAsync extends AsyncTask<Void, Void, JSONObject>
 {
 	private LinearLayout cwaitLayout;
 	private String email, password, phoneNo, firstname, lastname, citizenId;
-	private int responseCode;
 	private IProcessDataAsyncListener listener;
 	
 	public RegisterOwnerAsync(LinearLayout cwaitLayout)
@@ -63,7 +62,7 @@ public class RegisterOwnerAsync extends AsyncTask<Void, Void, Void>
 	
 
 	@Override
-	protected Void doInBackground(Void... arg0) 
+	protected JSONObject doInBackground(Void... arg0) 
 	{
 		try
 		{
@@ -74,24 +73,27 @@ public class RegisterOwnerAsync extends AsyncTask<Void, Void, Void>
 															firstname, 
 															lastname, 
 															citizenId);
-			this.responseCode = response.getInt("ResponseCode");
+			return response;
 		}
 		catch (Exception e)
 		{
-			this.responseCode = -1;
+			return null;
 		}
-		return null;
 	}
 	
 	@Override
-	protected void onPostExecute(Void result) {
+	protected void onPostExecute(JSONObject response) {
 		if (cwaitLayout != null)
 			cwaitLayout.setVisibility(View.GONE);
+		try
+		{
+			int responseCode = response.getInt("ResponseCode");
+			listener.onProcessEvent(responseCode, response);
+		}
+		catch (Exception e)
+		{
+			listener.onProcessEvent(-1, null);
+		}
 	}
-	
-	public int getReponseCode() throws Exception
-	{
-		this.wait();
-		return this.responseCode;
-	}
+
 }
