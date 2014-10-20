@@ -3,10 +3,7 @@ package app.android.searcharound.activity;
 import org.json.JSONObject;
 
 import android.app.Fragment;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
-import android.provider.MediaStore.Images.ImageColumns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,15 +13,16 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import app.android.searcharound.R;
-import app.android.searcharound.loader.ILoaderResultListener;
+import app.android.searcharound.loader.IProcessDataAsyncListener;
 import app.android.searcharound.loader.LoadShopInfoAsync;
 import app.android.searcharound.utility.AlertBox;
 import app.android.searcharound.utility.ImgLoader;
+import app.android.searcharound.utility.NavigationService;
 import app.android.searcharound.utility.PREFS_CODE;
 import app.android.searcharound.utility.SERVER_ADDRESS;
 import app.android.searcharound.utility.SecurePreferences;
 
-public class ShopInformationFragment extends Fragment implements IActivityDataSetter, ILoaderResultListener
+public class ShopInformationFragment extends Fragment implements IActivityDataSetter, IProcessDataAsyncListener
 {
 	private ProgressBar spinner;
 	private LinearLayout cwaitLayout;
@@ -35,6 +33,8 @@ public class ShopInformationFragment extends Fragment implements IActivityDataSe
 	private TextView txtViewContact;
 	private TextView txtViewEdit;
 	private ImageView imgViewEdit;
+	
+	private String imgURL = "";
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,8 +53,10 @@ public class ShopInformationFragment extends Fragment implements IActivityDataSe
 		txtViewEdit = (TextView) view.findViewById(R.id.txtViewEdit);
 		imgViewEdit = (ImageView) view.findViewById(R.id.imgViewEdit);
 		
-		txtViewEdit.setOnClickListener(new onClickEditInfoListener());
-		
+		OnClickEditInfoListener listener = new OnClickEditInfoListener();
+		txtViewEdit.setOnClickListener(listener);
+		imgViewEdit.setOnClickListener(listener);
+		imgViewShop.setOnClickListener(listener);
 		setData();
 		
 		Toast.makeText(this.getActivity(), "OPEN", Toast.LENGTH_LONG).show();
@@ -64,6 +66,7 @@ public class ShopInformationFragment extends Fragment implements IActivityDataSe
 	@Override
 	public void setData() 
 	{
+		onLock();
 		SecurePreferences pref = new SecurePreferences(this.getActivity(), PREFS_CODE.PREFS_CODE_NAME,
 				PREFS_CODE.PRIVATE_KEY, true);
 		
@@ -72,7 +75,7 @@ public class ShopInformationFragment extends Fragment implements IActivityDataSe
 		{
 			int shopId = Integer.parseInt(shopId_str);
 			LoadShopInfoAsync loader = new LoadShopInfoAsync(shopId, cwaitLayout);
-			loader.setLoaderResultListener(this);
+			loader.setProcessDataAsyncListener(this);
 			loader.execute();
 		}
 		
@@ -96,6 +99,7 @@ public class ShopInformationFragment extends Fragment implements IActivityDataSe
 			txtViewLocation.setText(location);
 			
 			String img_url = "http://"+SERVER_ADDRESS.IP+"/"+picPath;
+			this.imgURL = img_url;
 			ImgLoader imgLoader = new ImgLoader(img_url, imgViewShop, this.getActivity(), spinner);
 			imgLoader.showImageOnFail(R.drawable.insert_image);
 			imgLoader.load();
@@ -104,18 +108,21 @@ public class ShopInformationFragment extends Fragment implements IActivityDataSe
 		{
 			AlertBox.showErrorMessage(this.getActivity(), "(Network unavailable)");
 		}
+		onUnlock();
 	}
 	
 	@Override
 	public void onLock() {
-		// TODO Auto-generated method stub
-		
+		imgViewEdit.setClickable(false);
+		txtViewEdit.setClickable(false);
+		imgViewShop.setClickable(false);
 	}
 
 	@Override
 	public void onUnlock() {
-		// TODO Auto-generated method stub
-		
+		imgViewEdit.setClickable(true);
+		txtViewEdit.setClickable(true);
+		imgViewShop.setClickable(true);
 	}
 
 	@Override
@@ -124,14 +131,13 @@ public class ShopInformationFragment extends Fragment implements IActivityDataSe
 		
 	}
 	
-	class onClickEditInfoListener implements View.OnClickListener
+	class OnClickEditInfoListener implements View.OnClickListener
 	{
 
 		@Override
 		public void onClick(View v) 
 		{
 			onClickEditInfo();
-			
 		}
 
 		
@@ -139,7 +145,23 @@ public class ShopInformationFragment extends Fragment implements IActivityDataSe
 	
 	public void onClickEditInfo()
 	{
+		SecurePreferences pref = new SecurePreferences(this.getActivity(), PREFS_CODE.PREFS_CODE_NAME,
+				PREFS_CODE.PRIVATE_KEY, true);
 		
+		String shopId_str = pref.getString(PREFS_CODE.SHOP_ID);
+		
+		Bundle param = new Bundle();
+		param.putInt("ShopId", Integer.parseInt(shopId_str));
+		param.putString("ShopName", txtViewShopName.getText().toString());
+		param.putString("PhoneNumber", txtViewContact.getText().toString());
+		param.putString("Address", txtViewAddress.getText().toString());
+		String spt[] = txtViewLocation.getText().toString().split(", ");
+		param.putString("Latitude", spt[0]);
+		param.putString("Longitude", spt[1]);
+		param.putString("ImageURL", imgURL);
+		
+		NavigationService.getInstance().navigate(this.getActivity(), 
+				SaveShopActivity.class, param);
 	}
 
 	

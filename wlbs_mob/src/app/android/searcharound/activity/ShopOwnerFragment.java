@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import app.android.searcharound.R;
-import app.android.searcharound.loader.ILoaderResultListener;
+import app.android.searcharound.loader.IProcessDataAsyncListener;
 import app.android.searcharound.loader.LoadAuthInfoAsync;
 import app.android.searcharound.utility.AlertBox;
 import app.android.searcharound.utility.NavigationService;
@@ -21,7 +21,7 @@ import app.android.searcharound.utility.OPCODE;
 import app.android.searcharound.utility.PREFS_CODE;
 import app.android.searcharound.utility.SecurePreferences;
 
-public class ShopOwnerFragment extends Fragment implements IActivityDataSetter, ILoaderResultListener{
+public class ShopOwnerFragment extends Fragment implements IActivityDataSetter, IProcessDataAsyncListener{
 
 	private Button btnSignIn;
 	private TextView linkReg;
@@ -90,7 +90,7 @@ public class ShopOwnerFragment extends Fragment implements IActivityDataSetter, 
 			String password = txtboxPassword.getText().toString();
 			
 			LoadAuthInfoAsync loader = new LoadAuthInfoAsync(email, password, cwaitLayout);
-			loader.setLoaderResultListener(this);
+			loader.setProcessDataAsyncListener(this);
 			loader.execute();
 		}
 		catch (Exception e)

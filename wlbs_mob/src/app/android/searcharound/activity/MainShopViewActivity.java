@@ -18,14 +18,14 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
 import app.android.searcharound.R;
 import app.android.searcharound.adapter.ListViewDrawerAdapter;
-import app.android.searcharound.loader.ILoaderResultListener;
+import app.android.searcharound.loader.IProcessDataAsyncListener;
 import app.android.searcharound.loader.LoadShopInfoAsync;
 import app.android.searcharound.utility.AlertBox;
 import app.android.searcharound.utility.NavigationService;
 import app.android.searcharound.utility.PREFS_CODE;
 import app.android.searcharound.utility.SecurePreferences;
 
-public class MainShopViewActivity extends Activity implements IActivityDataSetter, ILoaderResultListener{
+public class MainShopViewActivity extends Activity implements IActivityDataSetter, IProcessDataAsyncListener{
 
 	private DrawerLayout drawerLayout;
 	private ActionBarDrawerToggle drawerListner;
@@ -117,7 +117,7 @@ public class MainShopViewActivity extends Activity implements IActivityDataSette
 		{
 			
 			LoadShopInfoAsync loader = new LoadShopInfoAsync(Integer.parseInt(shopId));
-			loader.setLoaderResultListener(this);
+			loader.setProcessDataAsyncListener(this);
 			loader.execute();
 		}
 		

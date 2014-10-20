@@ -9,18 +9,25 @@ import android.view.View;
 import android.widget.LinearLayout;
 import app.android.searcharound.service.ShopOwnerService;
 
-public class SaveShopAsync extends AsyncTask<Void, Void, Void>
-{
+public class SaveShopAsync extends AsyncTask<Void, Void, JSONObject>
+{	
 	private LinearLayout cwaitLayout;
-	private int responseCode;
 	
 	private String shopName, phoneNo, latitude, longitude, address;
-	private int shopType, ownerId;
+	private int shopType, ownerId, shopId;
 	private File picture;
+	private IProcessDataAsyncListener listener;
+	
+	
 	
 	public SaveShopAsync(LinearLayout cwaitLayout)
 	{
 		this.cwaitLayout = cwaitLayout;
+	}
+	
+	public void setProcessDataAsyncListener(IProcessDataAsyncListener listener)
+	{
+		this.listener = listener;
 	}
 	
 	public void setShopName(String shopName)
@@ -43,6 +50,11 @@ public class SaveShopAsync extends AsyncTask<Void, Void, Void>
 		this.latitude = latitude;
 	}
 	
+	public void setShopId(int shopId)
+	{
+		this.shopId = shopId;
+	}
+	
 	public void setLongitude(String longitude)
 	{
 		this.longitude = longitude;
@@ -62,14 +74,7 @@ public class SaveShopAsync extends AsyncTask<Void, Void, Void>
 	{
 		this.picture = picture;
 	}
-	
-	
-	public int getResponseCode() throws Exception
-	{
-		this.get();
-		return this.responseCode;
-	}
-	
+
 	@Override
 	protected void onPreExecute() {
 		if (cwaitLayout != null)
@@ -77,27 +82,46 @@ public class SaveShopAsync extends AsyncTask<Void, Void, Void>
 	}
 	
 	@Override
-	protected Void doInBackground(Void... params) {
+	protected JSONObject doInBackground(Void... params) {
 		
 		try
 		{
+			JSONObject response = null;
 			ShopOwnerService service = new ShopOwnerService();
-			JSONObject response = service.addNewShop(shopName, 
-					phoneNo, latitude, longitude, address, shopType, ownerId, picture);
 			
-			this.responseCode = response.getInt("ResponseCode");
+			if (shopId == 0)
+			{
+				response = service.addNewShop(shopName, 
+						phoneNo, latitude, longitude, address, shopType, ownerId, picture);
+			}
+			else
+			{
+				response = service.editShopInformation(shopId, shopName,
+						phoneNo, latitude, longitude, address, picture);			
+			}
+			return response;
+			//this.responseCode = response.getInt("ResponseCode");
 		}
 		catch (Exception e)
 		{
-			this.responseCode = -1;
+			return null;
 		}
-		return null;
 	}
 	
 	@Override
-	protected void onPostExecute(Void result) {
+	protected void onPostExecute(JSONObject response) {
 		if (cwaitLayout != null)
 			cwaitLayout.setVisibility(View.GONE);
+		
+		try
+		{
+			int responseCode = response.getInt("ResponseCode");
+			listener.onProcessEvent(responseCode, response);
+		}
+		catch (Exception e)
+		{
+			listener.onProcessEvent(-1, response);
+		}
 	}
 	
 }
