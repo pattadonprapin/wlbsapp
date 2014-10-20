@@ -5,9 +5,12 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -50,6 +53,18 @@ public class ListViewShopAdapter extends BaseAdapter
 		this.items = items;
 	}
 	
+	public void removeItem(int position)
+	{
+		items.remove(position);
+		notifyDataSetChanged();
+	}
+	
+	private OnClickRemoveCallBack callback;
+	public void setOnClickRemoveCallBack(OnClickRemoveCallBack callback)
+	{
+		this.callback = callback;
+	}
+	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View row = null;
@@ -68,16 +83,29 @@ public class ListViewShopAdapter extends BaseAdapter
 		TextView txtView = (TextView) row.findViewById(R.id.txtViewShopName);
 		ImageView imgView = (ImageView) row.findViewById(R.id.imgViewShop);
 		ProgressBar spinner = (ProgressBar) row.findViewById(R.id.imgProgress);
+		ImageView imgBin = (ImageView) row.findViewById(R.id.imgBin);
 		
+		final int p = position;
+		imgBin.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				callback.processOnRemoveCallback(p);
+				
+			}
+		});
+
 		txtView.setText(items.get(position).name);	
 		
 		if (items.get(position).id == ADD_POSITION)
 		{
 			imgView.setImageResource(R.drawable.add);
 			spinner.setVisibility(View.GONE);
+			imgBin.setVisibility(View.GONE);
 		}
 		else
 		{				
+			imgBin.setVisibility(View.VISIBLE);
 			txtView.setText(items.get(position).name);	
 			
 			try
@@ -93,8 +121,17 @@ public class ListViewShopAdapter extends BaseAdapter
 			{
 				Toast.makeText(context, "Error", Toast.LENGTH_LONG).show();
 			}
+			
+			
 		}
+		
+		
 		return row;
+	}
+	
+	public interface OnClickRemoveCallBack
+	{
+		public void processOnRemoveCallback(int position);
 	}
 	
 }	
