@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Search Around</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <style name="DefaultButtonText">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#979797</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:shadowColor">#f9f9f9</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">1</item>
+    </style>
+
+    <string name="register"><b><u>Register</u></b></string>
+    <string name="title_activity_register">RegisterActivity</string>
+    <string name="title_activity_splash_screen">SplashScreenActivity</string>
+    <string name="title_activity_select_shop">SelectShopActivity</string>
+    <string name="title_activity_save_shop">SaveShopActivity</string>
+    <string name="title_activity_main_shop_view">MainShopViewActivity</string>
+
+     <string-array name="nav_drawer_items">
+        <item >Home</item>
+        <item >Picture</item>
+        <item >Request</item>
+        <item >Promotion</item>
+        <item >Co-Promotion</item>
+        <item >Access Point</item>
+        <item >Sign Out</item>
+    </string-array>
+    
+</resources>
