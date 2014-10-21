@@ -5,6 +5,7 @@ import java.io.File;
 import org.json.JSONObject;
 
 import app.android.searcharound.utility.OPCODE;
+import app.android.seracharound.transport.ProgressFileTransferListener;
 
 public class ShopOwnerService extends CommonService
 {
@@ -295,6 +296,22 @@ public class ShopOwnerService extends CommonService
         transport.setJSON(json);
         transport.setRequestCode(OPCODE.SERVICE_SAVE_PICTURE_REQUEST);
         
+        transport.post();
+        
+        return transport.getJSONResponse();
+    }
+    
+    public JSONObject uploadPicture(File file, String name, int shopId, 
+    		ProgressFileTransferListener listener) throws Exception
+    {
+        JSONObject json = new JSONObject();
+        json.put("Name", name);
+        json.put("ShopId", shopId);
+        
+        transport.setFile(file);
+        transport.setJSON(json);
+        transport.setRequestCode(OPCODE.SERVICE_SAVE_PICTURE_REQUEST);
+        transport.setProgressListener(listener);
         transport.post();
         
         return transport.getJSONResponse();

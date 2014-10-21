@@ -1,5 +1,6 @@
 package app.android.searcharound.activity;
 
+
 import org.json.JSONObject;
 
 import android.app.Activity;
@@ -91,6 +92,7 @@ public class MainShopViewActivity extends Activity implements IActivityDataSette
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+
 		if (drawerListner.onOptionsItemSelected(item))
 		{
 			return true;
@@ -214,15 +216,21 @@ public class MainShopViewActivity extends Activity implements IActivityDataSette
 		ShopInformationFragment frag = new ShopInformationFragment();
 		
 		FragmentManager fragmentManager = getFragmentManager();
-		FragmentTransaction ft = fragmentManager.beginTransaction();
-		ft.replace(R.id.frame_container, frag);
-		ft.commit();
+		FragmentTransaction trans = fragmentManager.beginTransaction();
+		trans.replace(R.id.frame_container, frag);
+		trans.commit();
 		
 	}
 	
 	public void onClickPicture()
 	{
+		ShopPictureFragment frag = new ShopPictureFragment();
 		
+		FragmentManager manager = getFragmentManager();
+		
+		FragmentTransaction trans = manager.beginTransaction();
+		trans.replace(R.id.frame_container, frag);
+		trans.commit();
 	}
 	
 	public void onClickPromotion()

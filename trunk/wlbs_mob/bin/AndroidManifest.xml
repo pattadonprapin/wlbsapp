@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="14"
+        android:minSdkVersion="16"
         android:targetSdkVersion="21" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -48,8 +48,16 @@
             android:label="@string/title_activity_save_shop" >
         </activity>
         <activity
-            android:name="app.android.searcharound.activity.MainShopViewActivity"
+            android:name=".activity.MainShopViewActivity"
             android:label="@string/title_activity_main_shop_view" >
+        </activity>
+        <activity
+            android:name=".activity.SaveShopPictureActivity"
+            android:label="@string/title_activity_save_shop_picture" >
+        </activity>
+        <activity
+            android:name=".ShowFullShopPictureActivity"
+            android:label="@string/title_activity_show_full_shop_picture" >
         </activity>
     </application>
 

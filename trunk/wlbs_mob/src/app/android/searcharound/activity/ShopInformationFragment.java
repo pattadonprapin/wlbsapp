@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+//import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,7 +25,7 @@ import app.android.searcharound.utility.SecurePreferences;
 public class ShopInformationFragment extends Fragment implements IActivityDataSetter, IProcessDataAsyncListener
 {
 	private ProgressBar spinner;
-	private LinearLayout cwaitLayout;
+	//private LinearLayout cwaitLayout;
 	private ImageView imgViewShop;
 	private TextView txtViewShopName;
 	private TextView txtViewAddress;
@@ -44,7 +44,7 @@ public class ShopInformationFragment extends Fragment implements IActivityDataSe
 		View view = inflater.inflate(R.layout.shop_info_layout, container, false);
 		
 		spinner = (ProgressBar) view.findViewById(R.id.imgProgress);
-		cwaitLayout = (LinearLayout) view.findViewById(R.id.cwait_layout);
+		//cwaitLayout = (LinearLayout) view.findViewById(R.id.cwait_layout);
 		imgViewShop = (ImageView) view.findViewById(R.id.imgViewShop);
 		txtViewShopName = (TextView) view.findViewById(R.id.txtViewShopName);
 		txtViewAddress = (TextView) view.findViewById(R.id.txtViewAddress);
@@ -74,7 +74,7 @@ public class ShopInformationFragment extends Fragment implements IActivityDataSe
 		if (shopId_str != null)
 		{
 			int shopId = Integer.parseInt(shopId_str);
-			LoadShopInfoAsync loader = new LoadShopInfoAsync(shopId, cwaitLayout);
+			LoadShopInfoAsync loader = new LoadShopInfoAsync(shopId, null);
 			loader.setProcessDataAsyncListener(this);
 			loader.execute();
 		}
