@@ -26,14 +26,17 @@
     <string name="title_activity_save_shop">SaveShopActivity</string>
     <string name="title_activity_main_shop_view">MainShopViewActivity</string>
 
-     <string-array name="nav_drawer_items">
-        <item >Home</item>
-        <item >Picture</item>
-        <item >Request</item>
-        <item >Promotion</item>
-        <item >Co-Promotion</item>
-        <item >Access Point</item>
-        <item >Sign Out</item>
+    <string-array name="nav_drawer_items">
+        <item>Home</item>
+        <item>Picture</item>
+        <item>Request</item>
+        <item>Promotion</item>
+        <item>Co-Promotion</item>
+        <item>Access Point</item>
+        <item>Sign Out</item>
     </string-array>
-    
+
+    <string name="title_activity_save_shop_picture">SaveShopPictureActivity</string>
+    <string name="title_activity_show_full_shop_picture">ShowFullShopPictureActivity</string>
+
 </resources>
