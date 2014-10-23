@@ -20,9 +20,12 @@ import android.widget.Toast;
 import app.android.searcharound.R;
 import app.android.searcharound.adapter.ListViewDrawerNavAdapter;
 import app.android.searcharound.common.PREFS_CODE;
+import app.android.searcharound.fragment.NavShopAccessPointFragment;
+import app.android.searcharound.fragment.NavShopCoPromotionFragment;
 import app.android.searcharound.fragment.NavShopInformationFragment;
 import app.android.searcharound.fragment.NavShopPictureFragment;
 import app.android.searcharound.fragment.NavShopPromotionFragment;
+import app.android.searcharound.fragment.NavShopRequestFragment;
 import app.android.searcharound.loader.IProcessDataAsyncListener;
 import app.android.searcharound.loader.LoadShopInfoAsync;
 import app.android.searcharound.utility.AlertBox;
@@ -250,17 +253,35 @@ public class ShopNavigatingActivity extends Activity implements InterfaceManager
 	
 	public void onClickRequest()
 	{
+		NavShopRequestFragment frag = new NavShopRequestFragment();
 		
+		FragmentManager manager = getFragmentManager();
+		
+		FragmentTransaction trans = manager.beginTransaction();
+		trans.replace(R.id.frame_container, frag);
+		trans.commit();
 	}
 	
 	public void onClickCoPromotion()
 	{
+		NavShopCoPromotionFragment frag = new NavShopCoPromotionFragment();
 		
+		FragmentManager manager = getFragmentManager();
+		
+		FragmentTransaction trans = manager.beginTransaction();
+		trans.replace(R.id.frame_container, frag);
+		trans.commit();
 	}
 	
 	public void onClickAccessPoint()
 	{
+		NavShopAccessPointFragment frag = new NavShopAccessPointFragment();
 		
+		FragmentManager manager = getFragmentManager();
+		
+		FragmentTransaction trans = manager.beginTransaction();
+		trans.replace(R.id.frame_container, frag);
+		trans.commit();
 	}
 	
 	public void onClickSignOut()
