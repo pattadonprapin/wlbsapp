@@ -14,9 +14,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import app.android.searcharound.R;
+import app.android.searcharound.common.SERVER_ADDRESS;
 import app.android.searcharound.model.ListViewShop;
 import app.android.searcharound.utility.ImgLoader;
-import app.android.searcharound.utility.SERVER_ADDRESS;
 
 public class ListViewShopAdapter extends BaseAdapter
 {
@@ -71,17 +71,17 @@ public class ListViewShopAdapter extends BaseAdapter
 		{
 			LayoutInflater inflater = (LayoutInflater)context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			row = inflater.inflate(R.layout.shop_listview_custom, parent, false);
+			row = inflater.inflate(R.layout.custom_listview_shop_selecting, parent, false);
 		}
 		else
 		{
 			row = convertView;
 		}
 		
-		TextView txtView = (TextView) row.findViewById(R.id.txtViewShopName);
-		ImageView imgView = (ImageView) row.findViewById(R.id.imgViewShop);
-		ProgressBar spinner = (ProgressBar) row.findViewById(R.id.imgProgress);
-		ImageView imgBin = (ImageView) row.findViewById(R.id.imgBin);
+		TextView txtView = (TextView) row.findViewById(R.id.txtview_shop_name);
+		ImageView imgView = (ImageView) row.findViewById(R.id.imgview_shop);
+		ProgressBar spinner = (ProgressBar) row.findViewById(R.id.progressbar_img);
+		ImageView imgBin = (ImageView) row.findViewById(R.id.imgview_remove);
 		
 		final int p = position;
 		imgBin.setOnClickListener(new OnClickListener() {

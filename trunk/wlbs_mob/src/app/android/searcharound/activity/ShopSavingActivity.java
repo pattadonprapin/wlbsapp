@@ -26,16 +26,17 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import app.android.searcharound.R;
+import app.android.searcharound.common.OPCODE;
+import app.android.searcharound.common.PREFS_CODE;
 import app.android.searcharound.loader.IProcessDataAsyncListener;
 import app.android.searcharound.loader.SaveShopAsync;
 import app.android.searcharound.utility.AlertBox;
 import app.android.searcharound.utility.ImgLoader;
+import app.android.searcharound.utility.InterfaceManager;
 import app.android.searcharound.utility.NavigationService;
-import app.android.searcharound.utility.OPCODE;
-import app.android.searcharound.utility.PREFS_CODE;
 import app.android.searcharound.utility.SecurePreferences;
 
-public class SaveShopActivity extends Activity implements IActivityDataSetter, IProcessDataAsyncListener
+public class ShopSavingActivity extends Activity implements InterfaceManager, IProcessDataAsyncListener
 {
 	private static final int SELECTED_PICURE = 1;
 	
@@ -60,25 +61,25 @@ public class SaveShopActivity extends Activity implements IActivityDataSetter, I
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_save_shop);
+		setContentView(R.layout.activity_shop_saving);
 		
-		txtboxShopName = (EditText) findViewById(R.id.txtboxShopName);
-		txtboxAddress = (EditText) findViewById(R.id.txtboxAddress);
-		txtboxPhoneNo = (EditText) findViewById(R.id.txtboxPhoneNo);
-		txtboxLatitude = (EditText) findViewById(R.id.txtboxLatitude);
-		txtboxLongitude = (EditText) findViewById(R.id.txtBoxLongitude);
+		txtboxShopName = (EditText) findViewById(R.id.txtbox_shop_name);
+		txtboxAddress = (EditText) findViewById(R.id.txtbox_address);
+		txtboxPhoneNo = (EditText) findViewById(R.id.txtbox_phone_no);
+		txtboxLatitude = (EditText) findViewById(R.id.txtbox_latitude);
+		txtboxLongitude = (EditText) findViewById(R.id.txtbox_longitude);
 		
-		spinner = (ProgressBar) findViewById(R.id.imgProgress);
-		linkGenLocation = (TextView) findViewById(R.id.linkGenLocation);
+		spinner = (ProgressBar) findViewById(R.id.progressbar_img);
+		linkGenLocation = (TextView) findViewById(R.id.txtview_gen_location);
 		linkGenLocation.setOnClickListener(new OnClickGenLocationListner());
 		
-		btnSave = (Button) findViewById(R.id.btnSave);
+		btnSave = (Button) findViewById(R.id.btn_save);
 		btnSave.setOnClickListener(new OnClickSaveListener());
 		
-		imgViewShop = (ImageView) findViewById(R.id.imgViewAddShop);
+		imgViewShop = (ImageView) findViewById(R.id.imgview_add_shop);
 		imgViewShop.setOnClickListener(new OnClickAddPictureListener());
 		
-		cwaitLayout = (LinearLayout) findViewById(R.id.cwait_layout);
+		cwaitLayout = (LinearLayout) findViewById(R.id.layout_waiting);
 		
 		Bundle param = this.getIntent().getExtras();
 		if (param != null)
@@ -149,14 +150,14 @@ public class SaveShopActivity extends Activity implements IActivityDataSetter, I
 		onLock();
 		try
 		{
-			SecurePreferences pref = new SecurePreferences(SaveShopActivity.this, PREFS_CODE.PREFS_CODE_NAME, 
+			SecurePreferences pref = new SecurePreferences(ShopSavingActivity.this, PREFS_CODE.PREFS_CODE_NAME, 
 					PREFS_CODE.PRIVATE_KEY, true);
 			
 			String ownerId = pref.getString(PREFS_CODE.OWNER_ID);
 			
 			if (ownerId == null)
 			{
-				NavigationService.getInstance().navigate(SaveShopActivity.this, MainActivity.class);
+				NavigationService.getInstance().navigate(ShopSavingActivity.this, MainTabActivity.class);
 			}
 			
 			String shopName = txtboxShopName.getText().toString();
@@ -191,7 +192,7 @@ public class SaveShopActivity extends Activity implements IActivityDataSetter, I
 		}
 		catch (Exception e)
 		{
-			AlertBox.showErrorMessage(SaveShopActivity.this, "(Network unavailable)");
+			AlertBox.showErrorMessage(ShopSavingActivity.this, "(Network unavailable)");
 			onUnlock();
 		}
 		
@@ -203,19 +204,19 @@ public class SaveShopActivity extends Activity implements IActivityDataSetter, I
 		switch (responseCode) 
 		{
 			case -1:
-				AlertBox.showErrorMessage(SaveShopActivity.this, "(Network unavailable)");
+				AlertBox.showErrorMessage(ShopSavingActivity.this, "(Network unavailable)");
 				break;
 			case OPCODE.SERVER_SAVE_SUCCESS_RESPONSE:
 				if (EDIT_STATE)
-					NavigationService.getInstance().navigate(SaveShopActivity.this, MainShopViewActivity.class);
+					NavigationService.getInstance().navigate(ShopSavingActivity.this, ShopNavigatingActivity.class);
 				else
-					NavigationService.getInstance().navigate(SaveShopActivity.this, SelectShopActivity.class);
+					NavigationService.getInstance().navigate(ShopSavingActivity.this, ShopSelectingActivity.class);
 					
 				onClear();
 				break;
 
 			case OPCODE.SERVER_SAVE_UNSUCCESS_RESPONSE:
-				AlertBox.showMessageBox(SaveShopActivity.this, "Unsuccesfully",
+				AlertBox.showMessageBox(ShopSavingActivity.this, "Unsuccesfully",
 						"Some input data has wrong format !");
 				break;
 		}	

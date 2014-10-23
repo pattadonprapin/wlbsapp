@@ -1,6 +1,6 @@
-package app.android.searcharound.activity;
+package app.android.searcharound.utility;
 
-public interface IActivityDataSetter 
+public interface InterfaceManager 
 {
 	public void setData();
 	public void onLock();

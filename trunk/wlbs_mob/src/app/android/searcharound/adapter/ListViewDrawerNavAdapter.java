@@ -9,10 +9,10 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import app.android.searcharound.R;
+import app.android.searcharound.common.SERVER_ADDRESS;
 import app.android.searcharound.utility.ImgLoader;
-import app.android.searcharound.utility.SERVER_ADDRESS;
 
-public class ListViewDrawerAdapter extends BaseAdapter
+public class ListViewDrawerNavAdapter extends BaseAdapter
 {
 	public final static int HOME = 0;
 	public final static int PICTURE = 1;
@@ -33,7 +33,7 @@ public class ListViewDrawerAdapter extends BaseAdapter
 	private int [] images = {0, R.drawable.pic_ic, R.drawable.request_ic, R.drawable.pro_ic,
 			R.drawable.co_pro_ic, R.drawable.ap_ic, R.drawable.signout_ic};
 	
-	public ListViewDrawerAdapter(Context context)
+	public ListViewDrawerNavAdapter(Context context)
 	{
 		this.context = context;
 		menu_txt = context.getResources().getStringArray(R.array.nav_drawer_items);
@@ -70,12 +70,12 @@ public class ListViewDrawerAdapter extends BaseAdapter
 		{
 			LayoutInflater inflater = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			row = inflater.inflate(R.layout.shop_info_listview_custom, parent, false);
+			row = inflater.inflate(R.layout.custom_listview_shop_info, parent, false);
 			
-			ImageView imgShop = (ImageView) row.findViewById(R.id.imgViewShop);
-			TextView txtViewName = (TextView) row.findViewById(R.id.txtViewShopName);
-			TextView txtViewEmail = (TextView) row.findViewById(R.id.txtViewEmail);
-			ProgressBar spinner = (ProgressBar) row.findViewById(R.id.imgProgress);
+			ImageView imgShop = (ImageView) row.findViewById(R.id.imgview_shop);
+			TextView txtViewName = (TextView) row.findViewById(R.id.txtview_shop_name);
+			TextView txtViewEmail = (TextView) row.findViewById(R.id.txtview_email);
+			ProgressBar spinner = (ProgressBar) row.findViewById(R.id.progressbar_img);
 			
 			txtViewEmail.setText(email);
 			txtViewName.setText(shopName);
@@ -93,14 +93,14 @@ public class ListViewDrawerAdapter extends BaseAdapter
 			{
 				LayoutInflater inflater = (LayoutInflater) context
 						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				row = inflater.inflate(R.layout.menu_listview_custom, parent, false);
+				row = inflater.inflate(R.layout.custom_listview_nav, parent, false);
 			}
 			else
 			{
 				row = convertView;
 			}
-			ImageView imgIcon = (ImageView) row.findViewById(R.id.imgViewIcon);
-			TextView txtMenu = (TextView) row.findViewById(R.id.txtViewMenu);
+			ImageView imgIcon = (ImageView) row.findViewById(R.id.imgview_icon);
+			TextView txtMenu = (TextView) row.findViewById(R.id.txtview_nav_name);
 			
 			imgIcon.setImageResource(images[position]);
 			txtMenu.setText(menu_txt[position]);

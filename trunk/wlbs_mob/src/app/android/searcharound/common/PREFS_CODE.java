@@ -1,4 +1,4 @@
-package app.android.searcharound.utility;
+package app.android.searcharound.common;
 
 public class PREFS_CODE 
 {
