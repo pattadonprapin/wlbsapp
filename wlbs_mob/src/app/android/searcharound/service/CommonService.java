@@ -2,8 +2,8 @@ package app.android.searcharound.service;
 
 import org.json.JSONObject;
 
-import app.android.searcharound.utility.OPCODE;
-import app.android.seracharound.transport.HttpPostTransport;
+import app.android.searcharound.common.OPCODE;
+import app.android.searcharound.transport.HttpPostTransport;
 
 public class CommonService
 {

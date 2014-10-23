@@ -64,7 +64,9 @@ public class ImgLoader
 		this.h = h;
 	}
 
-	public void load() {
+	public void load() 
+	{
+		
 		if (w + h != 0)
 		{
 			optionsBuilder.postProcessor(new BitmapProcessor() {
@@ -76,7 +78,7 @@ public class ImgLoader
 				}
 			});
 		}
-
+		optionsBuilder.imageScaleType(ImageScaleType.NONE_SAFE);
 		imageLoader.displayImage(url, imgView, optionsBuilder.build(), 
 				new SimpleImageLoadingListener() {
 					@Override

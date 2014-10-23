@@ -11,15 +11,16 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import app.android.searcharound.R;
+import app.android.searcharound.common.OPCODE;
+import app.android.searcharound.common.PREFS_CODE;
 import app.android.searcharound.loader.IProcessDataAsyncListener;
 import app.android.searcharound.loader.RegisterOwnerAsync;
 import app.android.searcharound.utility.AlertBox;
+import app.android.searcharound.utility.InterfaceManager;
 import app.android.searcharound.utility.NavigationService;
-import app.android.searcharound.utility.OPCODE;
-import app.android.searcharound.utility.PREFS_CODE;
 import app.android.searcharound.utility.SecurePreferences;
 
-public class RegisterActivity extends Activity implements IActivityDataSetter, IProcessDataAsyncListener{
+public class ShopOwnerRegActivity extends Activity implements InterfaceManager, IProcessDataAsyncListener{
 
 	private TextView txtboxEmail;
 	private TextView txtboxPassword;
@@ -35,23 +36,23 @@ public class RegisterActivity extends Activity implements IActivityDataSetter, I
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_register);
+		setContentView(R.layout.activity_shop_owner_reg);
 		
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		
 		
-		txtboxEmail = (TextView)findViewById(R.id.txtboxEmail);
-		txtboxPassword = (TextView)findViewById(R.id.txtboxPassword);
-		txtboxReTypePass = (TextView)findViewById(R.id.txtBoxReTypePassword);
-		txtboxFirstname = (TextView)findViewById(R.id.txtboxFirstname);
-		txtboxLastname = (TextView)findViewById(R.id.txtboxLastname);
-		txtboxPhoneNo = (TextView)findViewById(R.id.txtboxPhoneNo);
-		txtboxCitizenId = (TextView)findViewById(R.id.txtboxCitizenId);
+		txtboxEmail = (TextView)findViewById(R.id.txtbox_email);
+		txtboxPassword = (TextView)findViewById(R.id.txtbox_password);
+		txtboxReTypePass = (TextView)findViewById(R.id.txtbox_re_type_password);
+		txtboxFirstname = (TextView)findViewById(R.id.txtbox_first_name);
+		txtboxLastname = (TextView)findViewById(R.id.txtbox_last_name);
+		txtboxPhoneNo = (TextView)findViewById(R.id.txtbox_phone_no);
+		txtboxCitizenId = (TextView)findViewById(R.id.txtbox_citizen_id);
 		
-		cwaitLayout = (LinearLayout) findViewById(R.id.cwait_layout);
+		cwaitLayout = (LinearLayout) findViewById(R.id.layout_waiting);
 		
-		btnRegister = (Button) findViewById(R.id.btnRegister);
+		btnRegister = (Button) findViewById(R.id.btn_register);
 	}
 	
 	public void onClick(View view) 
@@ -86,7 +87,7 @@ public class RegisterActivity extends Activity implements IActivityDataSetter, I
 		}
 		catch (Exception e)
 		{
-			AlertBox.showErrorMessage(RegisterActivity.this, "(Network unavailable)");
+			AlertBox.showErrorMessage(ShopOwnerRegActivity.this, "(Network unavailable)");
 			onUnlock();
 		}
 		
@@ -98,7 +99,7 @@ public class RegisterActivity extends Activity implements IActivityDataSetter, I
 		switch (responseCode) 
 		{
 			case -1:
-				AlertBox.showErrorMessage(RegisterActivity.this, "(Network unavailable )");
+				AlertBox.showErrorMessage(ShopOwnerRegActivity.this, "(Network unavailable )");
 				break;
 				
 			case OPCODE.SERVER_SAVE_SUCCESS_RESPONSE:
@@ -106,7 +107,7 @@ public class RegisterActivity extends Activity implements IActivityDataSetter, I
 				break;
 	
 			case OPCODE.SERVER_SAVE_UNSUCCESS_RESPONSE:
-				AlertBox.showErrorMessage(RegisterActivity.this, "");
+				AlertBox.showErrorMessage(ShopOwnerRegActivity.this, "");
 				break;
 				
 			case OPCODE.SERVER_ERROR_DUPLICATE_EMAIL_RESPONSE:
@@ -118,14 +119,14 @@ public class RegisterActivity extends Activity implements IActivityDataSetter, I
 	
 	public void onSuccessful()
 	{
-		AlertBox.showMessageBox(RegisterActivity.this, "Successfully","Register Successfully");
+		AlertBox.showMessageBox(ShopOwnerRegActivity.this, "Successfully","Register Successfully");
 		
-		SecurePreferences pref = new SecurePreferences(RegisterActivity.this, PREFS_CODE.PREFS_CODE_NAME, 
+		SecurePreferences pref = new SecurePreferences(ShopOwnerRegActivity.this, PREFS_CODE.PREFS_CODE_NAME, 
 				PREFS_CODE.PRIVATE_KEY, true);
 		
 		pref.put(PREFS_CODE.EMAIL, txtboxEmail.getText().toString());
-		NavigationService.getInstance().navigate(RegisterActivity.this, 
-				MainActivity.class);
+		NavigationService.getInstance().navigate(ShopOwnerRegActivity.this, 
+				MainTabActivity.class);
 	}
 	
 	@Override

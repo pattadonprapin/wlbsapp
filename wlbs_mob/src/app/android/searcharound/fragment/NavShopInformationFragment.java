@@ -1,4 +1,4 @@
-package app.android.searcharound.activity;
+package app.android.searcharound.fragment;
 
 import org.json.JSONObject;
 
@@ -13,16 +13,18 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import app.android.searcharound.R;
+import app.android.searcharound.activity.ShopSavingActivity;
+import app.android.searcharound.common.PREFS_CODE;
+import app.android.searcharound.common.SERVER_ADDRESS;
 import app.android.searcharound.loader.IProcessDataAsyncListener;
 import app.android.searcharound.loader.LoadShopInfoAsync;
 import app.android.searcharound.utility.AlertBox;
 import app.android.searcharound.utility.ImgLoader;
+import app.android.searcharound.utility.InterfaceManager;
 import app.android.searcharound.utility.NavigationService;
-import app.android.searcharound.utility.PREFS_CODE;
-import app.android.searcharound.utility.SERVER_ADDRESS;
 import app.android.searcharound.utility.SecurePreferences;
 
-public class ShopInformationFragment extends Fragment implements IActivityDataSetter, IProcessDataAsyncListener
+public class NavShopInformationFragment extends Fragment implements InterfaceManager, IProcessDataAsyncListener
 {
 	private ProgressBar spinner;
 	//private LinearLayout cwaitLayout;
@@ -41,17 +43,17 @@ public class ShopInformationFragment extends Fragment implements IActivityDataSe
 			Bundle savedInstanceState) 
 	{
 		
-		View view = inflater.inflate(R.layout.shop_info_layout, container, false);
+		View view = inflater.inflate(R.layout.fragment_shop_information, container, false);
 		
-		spinner = (ProgressBar) view.findViewById(R.id.imgProgress);
+		spinner = (ProgressBar) view.findViewById(R.id.progressbar_img);
 		//cwaitLayout = (LinearLayout) view.findViewById(R.id.cwait_layout);
-		imgViewShop = (ImageView) view.findViewById(R.id.imgViewShop);
-		txtViewShopName = (TextView) view.findViewById(R.id.txtViewShopName);
-		txtViewAddress = (TextView) view.findViewById(R.id.txtViewAddress);
-		txtViewLocation = (TextView) view.findViewById(R.id.txtViewLocation);
-		txtViewContact = (TextView) view.findViewById(R.id.txtViewContact);
-		txtViewEdit = (TextView) view.findViewById(R.id.txtViewEdit);
-		imgViewEdit = (ImageView) view.findViewById(R.id.imgViewEdit);
+		imgViewShop = (ImageView) view.findViewById(R.id.imgview_shop);
+		txtViewShopName = (TextView) view.findViewById(R.id.txtview_shop_name);
+		txtViewAddress = (TextView) view.findViewById(R.id.txtview_address);
+		txtViewLocation = (TextView) view.findViewById(R.id.txtview_location);
+		txtViewContact = (TextView) view.findViewById(R.id.txtview_contact);
+		txtViewEdit = (TextView) view.findViewById(R.id.txtview_edit);
+		imgViewEdit = (ImageView) view.findViewById(R.id.imgview_edit);
 		
 		OnClickEditInfoListener listener = new OnClickEditInfoListener();
 		txtViewEdit.setOnClickListener(listener);
@@ -161,7 +163,7 @@ public class ShopInformationFragment extends Fragment implements IActivityDataSe
 		param.putString("ImageURL", imgURL);
 		
 		NavigationService.getInstance().navigate(this.getActivity(), 
-				SaveShopActivity.class, param);
+				ShopSavingActivity.class, param);
 	}
 
 	

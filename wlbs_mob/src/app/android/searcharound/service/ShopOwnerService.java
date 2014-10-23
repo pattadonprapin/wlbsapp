@@ -4,8 +4,8 @@ import java.io.File;
 
 import org.json.JSONObject;
 
-import app.android.searcharound.utility.OPCODE;
-import app.android.seracharound.transport.ProgressFileTransferListener;
+import app.android.searcharound.common.OPCODE;
+import app.android.searcharound.transport.ProgressFileTransferListener;
 
 public class ShopOwnerService extends CommonService
 {

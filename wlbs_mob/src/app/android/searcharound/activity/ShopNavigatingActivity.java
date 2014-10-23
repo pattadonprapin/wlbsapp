@@ -18,26 +18,30 @@ import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
 import app.android.searcharound.R;
-import app.android.searcharound.adapter.ListViewDrawerAdapter;
+import app.android.searcharound.adapter.ListViewDrawerNavAdapter;
+import app.android.searcharound.common.PREFS_CODE;
+import app.android.searcharound.fragment.NavShopInformationFragment;
+import app.android.searcharound.fragment.NavShopPictureFragment;
+import app.android.searcharound.fragment.NavShopPromotionFragment;
 import app.android.searcharound.loader.IProcessDataAsyncListener;
 import app.android.searcharound.loader.LoadShopInfoAsync;
 import app.android.searcharound.utility.AlertBox;
+import app.android.searcharound.utility.InterfaceManager;
 import app.android.searcharound.utility.NavigationService;
-import app.android.searcharound.utility.PREFS_CODE;
 import app.android.searcharound.utility.SecurePreferences;
 
-public class MainShopViewActivity extends Activity implements IActivityDataSetter, IProcessDataAsyncListener{
+public class ShopNavigatingActivity extends Activity implements InterfaceManager, IProcessDataAsyncListener{
 
 	private DrawerLayout drawerLayout;
 	private ActionBarDrawerToggle drawerListner;
-	private ListViewDrawerAdapter listViewDrawerAdapter;
+	private ListViewDrawerNavAdapter listViewDrawerAdapter;
 	
 	private ListView listView;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main_shop_view);
+		setContentView(R.layout.activity_shop_nav);
 		
 		SecurePreferences pref = new SecurePreferences(this, PREFS_CODE.PREFS_CODE_NAME, 
 				PREFS_CODE.PRIVATE_KEY, true);
@@ -49,13 +53,13 @@ public class MainShopViewActivity extends Activity implements IActivityDataSette
 			Toast.makeText(this, "ID = " +shopId, Toast.LENGTH_LONG).show();
 			
 			
-			listView = (ListView) findViewById(R.id.drawerList);
-			ListView listView = (ListView) findViewById(R.id.drawerList);
+			listView = (ListView) findViewById(R.id.listview_nav_drawer);
+			ListView listView = (ListView) findViewById(R.id.listview_nav_drawer);
 			listView.setOnItemClickListener(new OnMenuClickListener());
 			
-			drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+			drawerLayout = (DrawerLayout) findViewById(R.id.layout_drawer);
 			
-			listViewDrawerAdapter = new ListViewDrawerAdapter(this);
+			listViewDrawerAdapter = new ListViewDrawerNavAdapter(this);
 			
 			drawerListner = new ActionBarDrawerToggle(this, drawerLayout, 
 					R.drawable.nav_ic, R.string.app_name, R.string.app_name)
@@ -76,7 +80,7 @@ public class MainShopViewActivity extends Activity implements IActivityDataSette
 		}
 		else
 		{
-			NavigationService.getInstance().navigate(this, MainActivity.class);
+			NavigationService.getInstance().navigate(this, MainTabActivity.class);
 		}
 		
 		onClickHome();
@@ -178,31 +182,31 @@ public class MainShopViewActivity extends Activity implements IActivityDataSette
 			setTitle(listViewDrawerAdapter.getItem(position));
 			switch (position) 
 			{
-				case ListViewDrawerAdapter.HOME:
+				case ListViewDrawerNavAdapter.HOME:
 					onClickHome();
 					break;
 					
-				case ListViewDrawerAdapter.PICTURE:
+				case ListViewDrawerNavAdapter.PICTURE:
 					onClickPicture();
 					break;
 					
-				case ListViewDrawerAdapter.PROMOTION:
+				case ListViewDrawerNavAdapter.PROMOTION:
 					onClickPromotion();
 					break;
 					
-				case ListViewDrawerAdapter.REQUEST:
+				case ListViewDrawerNavAdapter.REQUEST:
 					onClickRequest();
 					break;
 				
-				case ListViewDrawerAdapter.CO_PROMOTION:
+				case ListViewDrawerNavAdapter.CO_PROMOTION:
 					onClickCoPromotion();
 					break;
 					
-				case ListViewDrawerAdapter.ACCESS_POINT:
+				case ListViewDrawerNavAdapter.ACCESS_POINT:
 					onClickAccessPoint();
 					break;
 					
-				case ListViewDrawerAdapter.SIGN_OUT:
+				case ListViewDrawerNavAdapter.SIGN_OUT:
 					onClickSignOut();
 					break;
 			}
@@ -213,7 +217,7 @@ public class MainShopViewActivity extends Activity implements IActivityDataSette
 	
 	public void onClickHome()
 	{
-		ShopInformationFragment frag = new ShopInformationFragment();
+		NavShopInformationFragment frag = new NavShopInformationFragment();
 		
 		FragmentManager fragmentManager = getFragmentManager();
 		FragmentTransaction trans = fragmentManager.beginTransaction();
@@ -224,7 +228,7 @@ public class MainShopViewActivity extends Activity implements IActivityDataSette
 	
 	public void onClickPicture()
 	{
-		ShopPictureFragment frag = new ShopPictureFragment();
+		NavShopPictureFragment frag = new NavShopPictureFragment();
 		
 		FragmentManager manager = getFragmentManager();
 		
@@ -235,7 +239,13 @@ public class MainShopViewActivity extends Activity implements IActivityDataSette
 	
 	public void onClickPromotion()
 	{
+		NavShopPromotionFragment frag = new NavShopPromotionFragment();
 		
+		FragmentManager manager = getFragmentManager();
+		
+		FragmentTransaction trans = manager.beginTransaction();
+		trans.replace(R.id.frame_container, frag);
+		trans.commit();
 	}
 	
 	public void onClickRequest()
@@ -260,7 +270,7 @@ public class MainShopViewActivity extends Activity implements IActivityDataSette
 		pref.put(PREFS_CODE.AUTH_STATUS, "false");
 		pref.put(PREFS_CODE.OWNER_ID, null);
 		pref.put(PREFS_CODE.SHOP_ID, null);
-		NavigationService.getInstance().navigate(this, MainActivity.class);
+		NavigationService.getInstance().navigate(this, MainTabActivity.class);
 	}
 		
 }

@@ -5,14 +5,14 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import app.android.searcharound.activity.ClientFragment;
-import app.android.searcharound.activity.ShopOwnerFragment;
+import app.android.searcharound.fragment.TabClientFragment;
+import app.android.searcharound.fragment.TabShopOwnerFragment;
 
-public class FragmentPageAdapter extends FragmentPagerAdapter {
+public class MainTapAdapter extends FragmentPagerAdapter {
 
 	private Context context;
 	
-	public FragmentPageAdapter(FragmentManager fm, Context context) {
+	public MainTapAdapter(FragmentManager fm, Context context) {
 		super(fm);
 		this.context = context;
 		// TODO Auto-generated constructor stub
@@ -23,9 +23,9 @@ public class FragmentPageAdapter extends FragmentPagerAdapter {
 		// TODO Auto-generated method stub
 		switch (key) {
 		case 0:
-			return new ClientFragment();
+			return new TabClientFragment();
 		case 1:
-			return new ShopOwnerFragment(context);
+			return new TabShopOwnerFragment(context);
 		}
 		return null;
 	}

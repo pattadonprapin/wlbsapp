@@ -16,17 +16,18 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import app.android.searcharound.R;
 import app.android.searcharound.adapter.ListViewShopAdapter;
+import app.android.searcharound.common.OPCODE;
+import app.android.searcharound.common.PREFS_CODE;
 import app.android.searcharound.loader.IProcessDataAsyncListener;
 import app.android.searcharound.loader.LoadAllShopInfoAsync;
 import app.android.searcharound.model.ListViewShop;
 import app.android.searcharound.service.ShopOwnerService;
 import app.android.searcharound.utility.AlertBox;
+import app.android.searcharound.utility.InterfaceManager;
 import app.android.searcharound.utility.NavigationService;
-import app.android.searcharound.utility.OPCODE;
-import app.android.searcharound.utility.PREFS_CODE;
 import app.android.searcharound.utility.SecurePreferences;
 
-public class SelectShopActivity extends Activity implements IActivityDataSetter, 
+public class ShopSelectingActivity extends Activity implements InterfaceManager, 
 IProcessDataAsyncListener, ListViewShopAdapter.OnClickRemoveCallBack{
 
 	private ListView listViewShop;
@@ -37,12 +38,12 @@ IProcessDataAsyncListener, ListViewShopAdapter.OnClickRemoveCallBack{
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_select_shop);
+		setContentView(R.layout.activity_shop_selecting);
 		
 		
-		listViewShop = (ListView) findViewById(R.id.listViewShop);
+		listViewShop = (ListView) findViewById(R.id.listview_shop);
 		
-		cwaitLayout = (LinearLayout) findViewById(R.id.cwait_layout);
+		cwaitLayout = (LinearLayout) findViewById(R.id.layout_waiting);
 		
 		listViewShopAdapter = new ListViewShopAdapter(this);
 		listViewShopAdapter.setOnClickRemoveCallBack(this);		
@@ -59,16 +60,16 @@ IProcessDataAsyncListener, ListViewShopAdapter.OnClickRemoveCallBack{
 				long id) {
 			if (id == ListViewShopAdapter.ADD_POSITION)
 			{
-				NavigationService.getInstance().navigate(SelectShopActivity.this, SaveShopActivity.class);
+				NavigationService.getInstance().navigate(ShopSelectingActivity.this, ShopSavingActivity.class);
 				
 			}
 			else
 			{
-				SecurePreferences pref = new SecurePreferences(SelectShopActivity.this, PREFS_CODE.PREFS_CODE_NAME, 
+				SecurePreferences pref = new SecurePreferences(ShopSelectingActivity.this, PREFS_CODE.PREFS_CODE_NAME, 
 						PREFS_CODE.PRIVATE_KEY, true);
 				pref.put(PREFS_CODE.SHOP_ID, listViewShopAdapter.getItem(position).id+"");
-				NavigationService.getInstance().navigate(SelectShopActivity.this, 
-						MainShopViewActivity.class);
+				NavigationService.getInstance().navigate(ShopSelectingActivity.this, 
+						ShopNavigatingActivity.class);
 			}			
 		}
 		
@@ -80,7 +81,7 @@ IProcessDataAsyncListener, ListViewShopAdapter.OnClickRemoveCallBack{
 	{
 		try
 		{
-			SecurePreferences pref = new SecurePreferences(SelectShopActivity.this, PREFS_CODE.PREFS_CODE_NAME, 
+			SecurePreferences pref = new SecurePreferences(ShopSelectingActivity.this, PREFS_CODE.PREFS_CODE_NAME, 
 					PREFS_CODE.PRIVATE_KEY, true);
 			
 			String m_ownerId = pref.getString(PREFS_CODE.OWNER_ID);

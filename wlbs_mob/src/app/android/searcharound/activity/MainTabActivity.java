@@ -10,22 +10,22 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import app.android.searcharound.R;
-import app.android.searcharound.adapter.FragmentPageAdapter;
+import app.android.searcharound.adapter.MainTapAdapter;
 
-public class MainActivity extends FragmentActivity{
+public class MainTabActivity extends FragmentActivity{
 
 	private ActionBar actionBar;
 	private ViewPager viewPager;
-	private FragmentPageAdapter fragment;
+	private MainTapAdapter fragment;
 
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.activity_main_tab);
 			
 		viewPager = (ViewPager)findViewById(R.id.pager);
-		fragment = new FragmentPageAdapter(getSupportFragmentManager(), this);
+		fragment = new MainTapAdapter(getSupportFragmentManager(), this);
 		actionBar = getActionBar();
 		
 		actionBar.setHomeButtonEnabled(false);

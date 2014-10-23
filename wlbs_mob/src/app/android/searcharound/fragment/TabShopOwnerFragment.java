@@ -1,4 +1,4 @@
-package app.android.searcharound.activity;
+package app.android.searcharound.fragment;
 
 import org.json.JSONObject;
 
@@ -13,15 +13,18 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import app.android.searcharound.R;
+import app.android.searcharound.activity.ShopOwnerRegActivity;
+import app.android.searcharound.activity.ShopSelectingActivity;
+import app.android.searcharound.common.OPCODE;
+import app.android.searcharound.common.PREFS_CODE;
 import app.android.searcharound.loader.IProcessDataAsyncListener;
 import app.android.searcharound.loader.LoadAuthInfoAsync;
 import app.android.searcharound.utility.AlertBox;
+import app.android.searcharound.utility.InterfaceManager;
 import app.android.searcharound.utility.NavigationService;
-import app.android.searcharound.utility.OPCODE;
-import app.android.searcharound.utility.PREFS_CODE;
 import app.android.searcharound.utility.SecurePreferences;
 
-public class ShopOwnerFragment extends Fragment implements IActivityDataSetter, IProcessDataAsyncListener{
+public class TabShopOwnerFragment extends Fragment implements InterfaceManager, IProcessDataAsyncListener{
 
 	private Button btnSignIn;
 	private TextView linkReg;
@@ -31,7 +34,7 @@ public class ShopOwnerFragment extends Fragment implements IActivityDataSetter, 
 
 	private Context context;
 
-	public ShopOwnerFragment(Context context) {
+	public TabShopOwnerFragment(Context context) {
 		this.context = context;
 	}
 
@@ -39,19 +42,19 @@ public class ShopOwnerFragment extends Fragment implements IActivityDataSetter, 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View view = inflater.inflate(R.layout.shop_owner_layout, container,
+		View view = inflater.inflate(R.layout.fragment_tab_shop_owner, container,
 				false);
 
-		linkReg = (TextView) view.findViewById(R.id.linkReg);
+		linkReg = (TextView) view.findViewById(R.id.txtview_reg);
 		linkReg.setOnClickListener(new OnClickRegisterListener());
 
-		btnSignIn = (Button) view.findViewById(R.id.btnSignIn);
+		btnSignIn = (Button) view.findViewById(R.id.btn_sign_in);
 		btnSignIn.setOnClickListener(new OnClickSignInListener());
 
-		cwaitLayout = (LinearLayout) view.findViewById(R.id.cwait_layout);
+		cwaitLayout = (LinearLayout) view.findViewById(R.id.layout_waiting);
 		
-		txtboxEmail = (EditText) view.findViewById(R.id.txtBoxSEmail);
-		txtboxPassword = (EditText) view.findViewById(R.id.txtBoxSPassword);
+		txtboxEmail = (EditText) view.findViewById(R.id.txtbox_email);
+		txtboxPassword = (EditText) view.findViewById(R.id.txtbox_password);
 
 		setData();
 	
@@ -69,7 +72,7 @@ public class ShopOwnerFragment extends Fragment implements IActivityDataSetter, 
 	
 	public void onClickRegister()
 	{
-		NavigationService.getInstance().navigate(context, RegisterActivity.class);
+		NavigationService.getInstance().navigate(context, ShopOwnerRegActivity.class);
 	}
 
 	class OnClickSignInListener implements View.OnClickListener {
@@ -96,6 +99,7 @@ public class ShopOwnerFragment extends Fragment implements IActivityDataSetter, 
 		catch (Exception e)
 		{
 			AlertBox.showErrorMessage(context, "(Network unavailable)");
+			onUnlock();
 		}
 	}
 
@@ -141,7 +145,7 @@ public class ShopOwnerFragment extends Fragment implements IActivityDataSetter, 
 		pref.put(PREFS_CODE.EMAIL, email);
 		pref.put(PREFS_CODE.OWNER_ID, ownerId+"");
 		
-		NavigationService.getInstance().navigate(context, SelectShopActivity.class);
+		NavigationService.getInstance().navigate(context, ShopSelectingActivity.class);
 	}
 
 	@Override

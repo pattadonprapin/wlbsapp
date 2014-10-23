@@ -2,7 +2,7 @@ package app.android.searcharound.service;
 
 import org.json.JSONObject;
 
-import app.android.searcharound.utility.OPCODE;
+import app.android.searcharound.common.OPCODE;
 
 public class ClientService extends CommonService
 {    
