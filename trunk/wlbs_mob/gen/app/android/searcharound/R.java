@@ -71,11 +71,11 @@ public final class R {
         public static final int drawerList=0x7f0a0003;
         public static final int drawer_layout=0x7f0a0001;
         public static final int frame_container=0x7f0a0002;
-        public static final int gridview_shop_pic=0x7f0a0029;
+        public static final int gridview_shop_pic=0x7f0a002a;
         public static final int imgLogo=0x7f0a001b;
         public static final int imgName=0x7f0a001c;
         public static final int imgview_add_shop=0x7f0a0014;
-        public static final int imgview_edit=0x7f0a0028;
+        public static final int imgview_edit=0x7f0a0029;
         public static final int imgview_icon=0x7f0a001e;
         public static final int imgview_picture=0x7f0a0010;
         public static final int imgview_remove=0x7f0a0023;
@@ -88,7 +88,7 @@ public final class R {
         public static final int pager=0x7f0a0000;
         public static final int progressbar_img=0x7f0a0013;
         public static final int progressbar_status=0x7f0a000f;
-        public static final int textView1=0x7f0a002a;
+        public static final int textView1=0x7f0a0024;
         public static final int txtbox_address=0x7f0a0016;
         public static final int txtbox_citizen_id=0x7f0a000a;
         public static final int txtbox_count=0x7f0a0020;
@@ -102,12 +102,12 @@ public final class R {
         public static final int txtbox_phone_no=0x7f0a0009;
         public static final int txtbox_re_type_password=0x7f0a000d;
         public static final int txtbox_shop_name=0x7f0a0015;
-        public static final int txtview_address=0x7f0a0024;
-        public static final int txtview_contact=0x7f0a0026;
-        public static final int txtview_edit=0x7f0a0027;
+        public static final int txtview_address=0x7f0a0025;
+        public static final int txtview_contact=0x7f0a0027;
+        public static final int txtview_edit=0x7f0a0028;
         public static final int txtview_email=0x7f0a0022;
         public static final int txtview_gen_location=0x7f0a0019;
-        public static final int txtview_location=0x7f0a0025;
+        public static final int txtview_location=0x7f0a0026;
         public static final int txtview_nav_name=0x7f0a001f;
         public static final int txtview_reg=0x7f0a002d;
         public static final int txtview_shop_name=0x7f0a0021;
@@ -126,11 +126,14 @@ public final class R {
         public static final int custom_listview_nav=0x7f03000a;
         public static final int custom_listview_shop_info=0x7f03000b;
         public static final int custom_listview_shop_selecting=0x7f03000c;
-        public static final int fragment_shop_information=0x7f03000d;
-        public static final int fragment_shop_picture=0x7f03000e;
-        public static final int fragment_shop_promotion=0x7f03000f;
-        public static final int fragment_tab_client=0x7f030010;
-        public static final int fragment_tab_shop_owner=0x7f030011;
+        public static final int fragment_shop_access_point=0x7f03000d;
+        public static final int fragment_shop_co_promotion=0x7f03000e;
+        public static final int fragment_shop_information=0x7f03000f;
+        public static final int fragment_shop_picture=0x7f030010;
+        public static final int fragment_shop_promotion=0x7f030011;
+        public static final int fragment_shop_request=0x7f030012;
+        public static final int fragment_tab_client=0x7f030013;
+        public static final int fragment_tab_shop_owner=0x7f030014;
     }
     public static final class menu {
         public static final int main=0x7f090000;
