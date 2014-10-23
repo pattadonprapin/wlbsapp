@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center" >
+        
+   <ProgressBar
+      android:id="@+id/progressbar_img"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:indeterminate="true"
+      android:visibility="visible"
+      android:background="@android:color/transparent"
+      android:layout_gravity="center"/>
+     
+   <ImageView
+      android:id="@+id/imgview_shop"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_vertical"
+      android:src="@drawable/insert_image" />
+</FrameLayout>

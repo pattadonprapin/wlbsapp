@@ -1,0 +1,156 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin">
+
+    <ScrollView
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent" >
+    
+	     <LinearLayout 
+	        android:orientation="vertical"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_centerInParent="true"
+	        android:padding="10dp">
+	        
+	        <LinearLayout android:orientation="horizontal"
+	            		  android:layout_width="match_parent"
+					      android:layout_height="wrap_content"
+					      android:layout_centerInParent="true"
+					      android:visibility="gone"
+					      android:id="@+id/layout_waiting">
+					      
+	            <ProgressBar
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:indeterminate="true"
+			        android:minHeight="40dp"
+			        android:maxHeight="40dp"
+			        android:background="@android:color/transparent"/>
+	            
+	            <TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Saving..."
+					android:layout_marginLeft="5dp"
+					android:layout_gravity="center_vertical"/>
+	        </LinearLayout>
+	        
+	        <FrameLayout
+	            android:background="@android:color/black"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content" >
+        
+		         <ProgressBar
+	             	android:id="@+id/progressbar_img"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:indeterminate="true"
+
+			        android:visibility="visible"
+			        android:layout_marginTop="5dp"
+			        android:background="@android:color/transparent"
+			        android:layout_gravity="center"/>
+		         
+		        <ImageView
+		        	android:id="@+id/imgview_add_shop"
+			        android:src="@drawable/kuy_chi"  
+			        android:adjustViewBounds="false"    
+			        android:layout_width="wrap_content"
+			        android:layout_height="180dp"
+			        android:layout_marginTop="10dp"
+			        android:layout_marginBottom="10dp"
+			        android:layout_gravity="center"/>  
+
+    		</FrameLayout>
+    		
+	        <EditText 
+				android:id="@+id/txtbox_shop_name"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="@drawable/edittext_top_bg"
+				android:padding="10dp"
+				android:hint="Shop Name"
+				android:textColorHint="#cccccc"
+				android:drawableLeft="@drawable/name"
+				android:drawablePadding="20dp"/>
+	         
+	        <EditText 
+	            android:id="@+id/txtbox_phone_no"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:background="@drawable/edittext_default_bg"
+	            android:padding="10dp"
+	            android:hint="Phone Number"
+	            android:textColorHint="#cccccc"
+	            android:drawableLeft="@drawable/phone"
+	            android:inputType="phone"
+	            android:drawablePadding="20dp"/>
+	         
+	        <EditText 
+	            android:id="@+id/txtbox_address"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:background="@drawable/edittext_default_bg"
+	            android:padding="10dp"
+	            android:hint="Address"
+	            android:textColorHint="#cccccc"
+	            android:drawableLeft="@drawable/address"
+	            android:drawablePadding="20dp"/>
+	         
+	        <EditText 
+	            android:id="@+id/txtbox_latitude"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:background="@drawable/edittext_default_bg"
+	            android:padding="10dp"
+	            android:hint="Latitude"
+	            android:textColorHint="#cccccc"
+	            android:drawableLeft="@drawable/map"
+	            android:drawablePadding="20dp"/>
+	          
+	        <EditText 
+	            android:id="@+id/txtbox_longitude"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:background="@drawable/edittext_bottom_bg"
+	            android:layout_marginTop="-2dp"
+	            android:padding="10dp"
+	            android:hint="Longitude"
+	            android:textColorHint="#cccccc"
+	            android:drawableLeft="@drawable/map"
+	            android:drawablePadding="20dp"/>
+	        
+	        
+	        <TextView
+				android:id="@+id/txtview_gen_location"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="right"
+				android:text="Generate Location"
+				android:autoLink="all"
+				android:clickable="true"
+				android:linksClickable="true"
+				android:textColor="@drawable/text_link_default_selector"
+				android:layout_marginRight="5dp"
+	     		/>
+	        <Button 
+	            android:id="@+id/btn_save"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:padding="10dp"
+	            android:layout_margin="4dp"
+	            android:text="Save"
+	            style="@style/DefaultButtonText"
+	            android:background="@drawable/button_default_bg"
+	            android:onClick="onClick"/>
+	         
+	     </LinearLayout>
+	</ScrollView>
+</RelativeLayout>
+
