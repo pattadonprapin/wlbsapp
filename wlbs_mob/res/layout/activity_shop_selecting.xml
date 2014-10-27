@@ -3,18 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="app.android.searcharound.activity.ShopSelectingActivity" >
+    tools:context="app.android.searcharound.activity.ShopSelectingActivity"
+    android:background="@android:color/transparent" >
 	 <LinearLayout 
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:background="@android:color/transparent">
         
         <LinearLayout android:orientation="horizontal"
             		  android:layout_width="match_parent"
 				      android:layout_height="wrap_content"
-				      android:layout_centerInParent="true"
 				      android:visibility="gone"
 				      android:id="@+id/layout_waiting">
 				      
@@ -38,8 +38,9 @@
 	        android:id="@+id/listview_shop"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
-	        android:layout_alignParentLeft="true"
-	        android:layout_alignParentTop="true" >
+	        android:divider="@android:color/transparent"
+	        android:dividerHeight="5dp"
+	        android:background="@android:color/transparent" >
 	    </ListView>
 	    
 	</LinearLayout>

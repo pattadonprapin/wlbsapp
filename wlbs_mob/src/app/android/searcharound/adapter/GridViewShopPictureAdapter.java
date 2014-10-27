@@ -3,6 +3,7 @@ package app.android.searcharound.adapter;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +11,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import app.android.searcharound.R;
-import app.android.searcharound.common.SERVER_ADDRESS;
+import app.android.searcharound.activity.PictureFullScreenActivity;
 import app.android.searcharound.model.ShopPicture;
 import app.android.searcharound.utility.ImgLoader;
+import app.android.searcharound.utility.NavigationService;
 
 public class GridViewShopPictureAdapter extends BaseAdapter
 {
@@ -64,15 +66,31 @@ public class GridViewShopPictureAdapter extends BaseAdapter
 		
 		ProgressBar spinner = (ProgressBar) row.findViewById(R.id.progressbar_img);
 		ImageView imgViewShop = (ImageView) row.findViewById(R.id.imgview_shop);
-		
-		String img_url = "http://"+SERVER_ADDRESS.IP+"/"+items.get(position).picturePath;
+		//"http://"+SERVER_ADDRESS.IP+"/"+
+		String img_url = items.get(position).picturePath;
 		ImgLoader img = new ImgLoader(img_url, imgViewShop, context, spinner);
 		img.showImageOnFail(R.drawable.error);
 		int size = (int)((parent.getWidth() - 13 ) / 3);
 		img.setSize(size, size);
 		img.load();
 		
+		
+		final int p = position;
+		imgViewShop.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View view) {
+				Bundle param = new Bundle();
+				param.putInt("position", p);
+				NavigationService.getInstance().navigate(context,
+						PictureFullScreenActivity.class, param);
+				
+			}
+		});
+		
 		return row;
 	}
+	
+
 
 }

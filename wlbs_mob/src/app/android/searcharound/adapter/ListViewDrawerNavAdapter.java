@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import app.android.searcharound.R;
-import app.android.searcharound.common.SERVER_ADDRESS;
 import app.android.searcharound.utility.ImgLoader;
 
 public class ListViewDrawerNavAdapter extends BaseAdapter
@@ -80,9 +79,9 @@ public class ListViewDrawerNavAdapter extends BaseAdapter
 			txtViewEmail.setText(email);
 			txtViewName.setText(shopName);
 			
-			String image_url = "http://"+SERVER_ADDRESS.IP+"/"+shopPicPath;	
-			
-			ImgLoader imgLoader = new ImgLoader(image_url, imgShop, context, spinner);
+			//String image_url = "http://"+SERVER_ADDRESS.IP+"/"+shopPicPath;	
+				
+			ImgLoader imgLoader = new ImgLoader(shopPicPath, imgShop, context, spinner);
 			imgLoader.setSize(60, 60);
 			imgLoader.showImageOnFail(R.drawable.shop_icon);
 			imgLoader.load();

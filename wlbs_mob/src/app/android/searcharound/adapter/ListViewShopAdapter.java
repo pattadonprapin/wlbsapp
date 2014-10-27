@@ -14,7 +14,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import app.android.searcharound.R;
-import app.android.searcharound.common.SERVER_ADDRESS;
 import app.android.searcharound.model.ListViewShop;
 import app.android.searcharound.utility.ImgLoader;
 
@@ -93,37 +92,24 @@ public class ListViewShopAdapter extends BaseAdapter
 			}
 		});
 
+		txtView.setText(items.get(position).name);				
+		imgBin.setVisibility(View.VISIBLE);
 		txtView.setText(items.get(position).name);	
-		
-		if (items.get(position).id == ADD_POSITION)
+			
+		try
 		{
-			imgView.setImageResource(R.drawable.add);
-			spinner.setVisibility(View.GONE);
-			imgBin.setVisibility(View.GONE);
+			//String image_url = "http://"+SERVER_ADDRESS.IP+"/"+items.get(position).picturePath;	
+			String image_url = items.get(position).picturePath;
+			ImgLoader imgLoader = new ImgLoader(image_url, imgView, context, spinner);
+			imgLoader.setSize(80, 80);
+			imgLoader.showImageOnFail(R.drawable.shop_icon);
+			imgLoader.load();
 		}
-		else
-		{				
-			imgBin.setVisibility(View.VISIBLE);
-			txtView.setText(items.get(position).name);	
-			
-			try
-			{
-				String image_url = "http://"+SERVER_ADDRESS.IP+"/"+items.get(position).picturePath;	
-				
-				ImgLoader imgLoader = new ImgLoader(image_url, imgView, context, spinner);
-				imgLoader.setSize(50, 50);
-				imgLoader.showImageOnFail(R.drawable.shop_icon);
-				imgLoader.load();
-			}
-			catch (Exception e)
-			{
-				Toast.makeText(context, "Error", Toast.LENGTH_LONG).show();
-			}
-			
-			
+		catch (Exception e)
+		{
+			Toast.makeText(context, "Error", Toast.LENGTH_LONG).show();
 		}
-		
-		
+			
 		return row;
 	}
 	

@@ -5,13 +5,14 @@ import java.io.File;
 import org.json.JSONObject;
 
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import app.android.searcharound.service.ShopOwnerService;
 import app.android.searcharound.transport.ProgressFileTransferListener;
 
-public class SaveShopPictureAsync extends AsyncTask<Void, Void, JSONObject>
+public class SaveShopPictureAsync extends AsyncTask<Bundle, Void, JSONObject>
 	implements ProgressFileTransferListener 
 {
 	private LinearLayout cwaitLayout;
@@ -59,7 +60,7 @@ public class SaveShopPictureAsync extends AsyncTask<Void, Void, JSONObject>
 	}
 	
 	@Override
-	protected JSONObject doInBackground(Void... params) {
+	protected JSONObject doInBackground(Bundle... params) {
 		try
 		{
 			ShopOwnerService service = new ShopOwnerService();
