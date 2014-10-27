@@ -38,5 +38,8 @@
 
     <string name="title_activity_save_shop_picture">SaveShopPictureActivity</string>
     <string name="title_activity_show_full_shop_picture">ShowFullShopPictureActivity</string>
+    <string name="title_activity_shop_promotion_saving">ShopPromotionSaving</string>
+    <string name="title_activity_picture_full_screen">PictureFullScreenActivity</string>
+    <string name="title_activity_promotion_full_screen">PromotionFullScreenActivity</string>
 
 </resources>

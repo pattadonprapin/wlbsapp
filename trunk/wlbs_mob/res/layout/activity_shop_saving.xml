@@ -59,7 +59,7 @@
 		         
 		        <ImageView
 		        	android:id="@+id/imgview_add_shop"
-			        android:src="@drawable/kuy_chi"  
+			        android:src="@drawable/insert_image"  
 			        android:adjustViewBounds="false"    
 			        android:layout_width="wrap_content"
 			        android:layout_height="180dp"

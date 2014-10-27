@@ -178,6 +178,11 @@ public class ShopSavingActivity extends Activity implements InterfaceManager, IP
 				Bundle param = this.getIntent().getExtras();
 				int shopId = param.getInt("ShopId");
 				handler.setShopId(shopId);
+				handler.setType(SaveShopAsync.EDIT);
+			}
+			else
+			{
+				handler.setType(SaveShopAsync.ADD);
 			}
 			handler.setShopName(shopName);
 			handler.setPhoneNo(phoneNumber);
@@ -188,6 +193,7 @@ public class ShopSavingActivity extends Activity implements InterfaceManager, IP
 			handler.setShopType(1);
 			handler.setOwnerId(Integer.parseInt(ownerId));	
 			handler.setProcessDataAsyncListener(this);
+			
 			handler.execute();
 		}
 		catch (Exception e)

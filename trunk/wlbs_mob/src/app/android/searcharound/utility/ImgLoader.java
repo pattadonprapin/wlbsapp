@@ -15,6 +15,7 @@ import android.graphics.Bitmap;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import app.android.searcharound.common.SERVER_ADDRESS;
 
 public class ImgLoader 
 {
@@ -45,6 +46,7 @@ public class ImgLoader
 				.memoryCache(new WeakMemoryCache()).build();
 
 		ImageLoader.getInstance().init(config);
+
 	}
 
 	public void showImageOnFail(int imgRes) {
@@ -66,7 +68,6 @@ public class ImgLoader
 
 	public void load() 
 	{
-		
 		if (w + h != 0)
 		{
 			optionsBuilder.postProcessor(new BitmapProcessor() {
@@ -78,29 +79,33 @@ public class ImgLoader
 				}
 			});
 		}
-		optionsBuilder.imageScaleType(ImageScaleType.NONE_SAFE);
-		imageLoader.displayImage(url, imgView, optionsBuilder.build(), 
+		optionsBuilder.imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2);
+		String img_url = "http://"+SERVER_ADDRESS.IP+"/"+url;
+		imageLoader.displayImage(img_url, imgView, optionsBuilder.build(), 
 				new SimpleImageLoadingListener() {
 					@Override
 					public void onLoadingStarted(String imageUri, View view) {
-						spinner.setVisibility(View.VISIBLE);
+						if (spinner != null)
+							spinner.setVisibility(View.VISIBLE);
 					}
 
 					@Override
 					public void onLoadingComplete(String imageUri, View view,
 							Bitmap loadedImage) {
-						spinner.setVisibility(View.GONE);
+						if (spinner != null)
+							spinner.setVisibility(View.GONE);
 					}
 
 					@Override
 					public void onLoadingCancelled(String imageUri, View view) {
-						spinner.setVisibility(View.GONE);
+						if (spinner != null)
+							spinner.setVisibility(View.GONE);
 					}
 					
 					@Override
 					public void onLoadingFailed(String imageUri, View view, FailReason reason) {
-						spinner.setVisibility(View.GONE);
-						
+						if (spinner != null)
+							spinner.setVisibility(View.GONE);					
 					}	
 				});
 	}

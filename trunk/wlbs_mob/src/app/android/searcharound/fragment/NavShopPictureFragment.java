@@ -111,13 +111,13 @@ public class NavShopPictureFragment extends Fragment implements InterfaceManager
 	{
 		super.onCreateOptionsMenu(menu, inflater);
 		menu.clear();
-		inflater.inflate(R.menu.shop_picture, menu);
+		inflater.inflate(R.menu.menu_with_add, menu);
 	}
 
-	 @Override
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) 
 	{
-		if (item.getItemId() == R.id.action_add_picture)
+		if (item.getItemId() == R.id.action_add)
 		{
 			onClickAddPicture();
 		}

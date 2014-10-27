@@ -9,6 +9,8 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
@@ -48,7 +50,35 @@ IProcessDataAsyncListener, ListViewShopAdapter.OnClickRemoveCallBack{
 		listViewShopAdapter = new ListViewShopAdapter(this);
 		listViewShopAdapter.setOnClickRemoveCallBack(this);		
 		listViewShop.setOnItemClickListener(new OnClickItemAction());
+		
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setDisplayShowHomeEnabled(true);
 		setData();
+		
+		
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.menu_with_add, menu);
+		return super.onCreateOptionsMenu(menu);
+		
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) 
+	{
+		if (item.getItemId() == R.id.action_add)
+		{
+			onClickAddShop();
+		}
+		return super.onOptionsItemSelected(item);
+	}
+	
+	public void onClickAddShop()
+	{
+		NavigationService.getInstance().navigate(ShopSelectingActivity.this,
+				ShopSavingActivity.class);
 	}
 	
 	
@@ -117,11 +147,11 @@ IProcessDataAsyncListener, ListViewShopAdapter.OnClickRemoveCallBack{
 				items.add(item);
 			}
 			
-			ListViewShop item = new ListViewShop();
-			item.name = "Add new shop";
-			item.id = ListViewShopAdapter.ADD_POSITION;
-			item.picturePath = "";
-			items.add(item);
+//			ListViewShop item = new ListViewShop();
+//			item.name = "Add new shop";
+//			item.id = ListViewShopAdapter.ADD_POSITION;
+//			item.picturePath = "";
+//			items.add(item);
 			
 			listViewShopAdapter.setData(items);
 			listViewShop.setAdapter(listViewShopAdapter);

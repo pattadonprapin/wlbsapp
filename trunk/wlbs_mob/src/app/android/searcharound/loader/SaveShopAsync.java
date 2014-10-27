@@ -11,10 +11,13 @@ import app.android.searcharound.service.ShopOwnerService;
 
 public class SaveShopAsync extends AsyncTask<Void, Void, JSONObject>
 {	
+	public static final int ADD = 1;
+	public static final int EDIT = 2;
+	
 	private LinearLayout cwaitLayout;
 	
 	private String shopName, phoneNo, latitude, longitude, address;
-	private int shopType, ownerId, shopId;
+	private int shopType, ownerId, shopId, type;
 	private File picture;
 	private IProcessDataAsyncListener listener;
 	
@@ -70,6 +73,11 @@ public class SaveShopAsync extends AsyncTask<Void, Void, JSONObject>
 		this.ownerId = ownerId;
 	}
 	
+	public void setType(int type)
+	{
+		this.type = type;
+	}
+	
 	public void setPictureFile(File picture)
 	{
 		this.picture = picture;
@@ -89,16 +97,19 @@ public class SaveShopAsync extends AsyncTask<Void, Void, JSONObject>
 			JSONObject response = null;
 			ShopOwnerService service = new ShopOwnerService();
 			
-			if (shopId == 0)
+			switch (type)
 			{
-				response = service.addNewShop(shopName, 
-						phoneNo, latitude, longitude, address, shopType, ownerId, picture);
+				case ADD:
+					response = service.addNewShop(shopName, 
+							phoneNo, latitude, longitude, address, shopType, ownerId, picture);
+					break;
+	
+				case EDIT:
+					response = service.editShopInformation(shopId, shopName,
+							phoneNo, latitude, longitude, address, picture);	
+					break;
 			}
-			else
-			{
-				response = service.editShopInformation(shopId, shopName,
-						phoneNo, latitude, longitude, address, picture);			
-			}
+
 			return response;
 			//this.responseCode = response.getInt("ResponseCode");
 		}

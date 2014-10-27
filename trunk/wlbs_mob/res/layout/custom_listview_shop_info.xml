@@ -32,14 +32,10 @@
 		         
 			     <ImageView
 			        android:id="@+id/imgview_shop"
-			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content"
+			        android:layout_width="60dp"
+			        android:layout_height="60dp"
 			        android:layout_gravity="center_vertical"
-			        android:paddingLeft="5dp" 
-			        android:maxHeight="60dp"
-			        android:maxWidth="60dp"
-			        android:minHeight="60dp"
-			        android:minWidth="60dp"/>   
+			        android:paddingLeft="5dp" />   
     		</FrameLayout>
         	 
 		        

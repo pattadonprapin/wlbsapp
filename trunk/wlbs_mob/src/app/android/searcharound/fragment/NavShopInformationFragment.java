@@ -1,5 +1,8 @@
 package app.android.searcharound.fragment;
 
+import java.util.ArrayList;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.Fragment;
@@ -8,16 +11,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.LinearLayout;
 //import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import app.android.searcharound.R;
 import app.android.searcharound.activity.ShopSavingActivity;
+import app.android.searcharound.adapter.ListViewCommentAdapter;
 import app.android.searcharound.common.PREFS_CODE;
-import app.android.searcharound.common.SERVER_ADDRESS;
 import app.android.searcharound.loader.IProcessDataAsyncListener;
+import app.android.searcharound.loader.LoadShopCommentAsync;
 import app.android.searcharound.loader.LoadShopInfoAsync;
+import app.android.searcharound.model.ShopComment;
 import app.android.searcharound.utility.AlertBox;
 import app.android.searcharound.utility.ImgLoader;
 import app.android.searcharound.utility.InterfaceManager;
@@ -27,7 +34,7 @@ import app.android.searcharound.utility.SecurePreferences;
 public class NavShopInformationFragment extends Fragment implements InterfaceManager, IProcessDataAsyncListener
 {
 	private ProgressBar spinner;
-	//private LinearLayout cwaitLayout;
+	private LinearLayout cwaitLayout;
 	private ImageView imgViewShop;
 	private TextView txtViewShopName;
 	private TextView txtViewAddress;
@@ -35,6 +42,8 @@ public class NavShopInformationFragment extends Fragment implements InterfaceMan
 	private TextView txtViewContact;
 	private TextView txtViewEdit;
 	private ImageView imgViewEdit;
+	private ListView listviewComment;
+	private ListViewCommentAdapter listviewCommentAdapter;
 	
 	private String imgURL = "";
 	
@@ -46,7 +55,7 @@ public class NavShopInformationFragment extends Fragment implements InterfaceMan
 		View view = inflater.inflate(R.layout.fragment_shop_information, container, false);
 		
 		spinner = (ProgressBar) view.findViewById(R.id.progressbar_img);
-		//cwaitLayout = (LinearLayout) view.findViewById(R.id.cwait_layout);
+		cwaitLayout = (LinearLayout) view.findViewById(R.id.layout_waiting);
 		imgViewShop = (ImageView) view.findViewById(R.id.imgview_shop);
 		txtViewShopName = (TextView) view.findViewById(R.id.txtview_shop_name);
 		txtViewAddress = (TextView) view.findViewById(R.id.txtview_address);
@@ -54,6 +63,9 @@ public class NavShopInformationFragment extends Fragment implements InterfaceMan
 		txtViewContact = (TextView) view.findViewById(R.id.txtview_contact);
 		txtViewEdit = (TextView) view.findViewById(R.id.txtview_edit);
 		imgViewEdit = (ImageView) view.findViewById(R.id.imgview_edit);
+		
+		listviewComment = (ListView) view.findViewById(R.id.listview_comment);
+		listviewCommentAdapter = new ListViewCommentAdapter(this.getActivity());
 		
 		OnClickEditInfoListener listener = new OnClickEditInfoListener();
 		txtViewEdit.setOnClickListener(listener);
@@ -79,6 +91,12 @@ public class NavShopInformationFragment extends Fragment implements InterfaceMan
 			LoadShopInfoAsync loader = new LoadShopInfoAsync(shopId, null);
 			loader.setProcessDataAsyncListener(this);
 			loader.execute();
+			
+			LoadShopCommentAsync loader2 = new LoadShopCommentAsync(cwaitLayout);
+			loader2.setShopId(shopId);
+			loader2.setProcessDataAsyncListener(new OnProcessDataFromComment());
+			loader2.execute();
+			
 		}
 		
 	}
@@ -100,9 +118,9 @@ public class NavShopInformationFragment extends Fragment implements InterfaceMan
 			txtViewContact.setText(contact);
 			txtViewLocation.setText(location);
 			
-			String img_url = "http://"+SERVER_ADDRESS.IP+"/"+picPath;
-			this.imgURL = img_url;
-			ImgLoader imgLoader = new ImgLoader(img_url, imgViewShop, this.getActivity(), spinner);
+			//String img_url = "http://"+SERVER_ADDRESS.IP+"/"+picPath;
+			this.imgURL = picPath;
+			ImgLoader imgLoader = new ImgLoader(picPath, imgViewShop, this.getActivity(), spinner);
 			imgLoader.showImageOnFail(R.drawable.insert_image);
 			imgLoader.load();
 		}
@@ -111,6 +129,44 @@ public class NavShopInformationFragment extends Fragment implements InterfaceMan
 			AlertBox.showErrorMessage(this.getActivity(), "(Network unavailable)");
 		}
 		onUnlock();
+	}
+	
+	class OnProcessDataFromComment implements IProcessDataAsyncListener
+	{
+
+		@Override
+		public void onProcessEvent(int responseCode, JSONObject response) 
+		{
+			try
+			{
+				JSONArray comments = response.getJSONArray("Comment");
+				
+				ArrayList<ShopComment> items = new ArrayList<ShopComment>();
+				
+				for (int i = 0; i < comments.length(); i++)
+				{
+					JSONObject comment = comments.getJSONObject(i);
+					
+					ShopComment item = new ShopComment();
+					item.commentId = comment.getInt("CommentId");
+					item.shopId = comment.getInt("ShopId");
+					item.text = comment.getString("Text");
+					item.dateTime = comment.getString("RecordDate");
+					
+					items.add(item);
+				}
+				
+				listviewCommentAdapter.setItems(items);
+				listviewComment.setAdapter(listviewCommentAdapter);
+			}
+			catch (Exception e)
+			{
+				AlertBox.showErrorMessage(NavShopInformationFragment.this.getActivity(), 
+						"(Network unavailable)");
+			}
+			
+		}
+		
 	}
 	
 	@Override

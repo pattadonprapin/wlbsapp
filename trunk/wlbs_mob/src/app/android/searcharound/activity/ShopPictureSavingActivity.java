@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -188,21 +190,9 @@ public class ShopPictureSavingActivity extends Activity
 				
 				//Bitmap bitmapResize = Bitmap.createScaledBitmap(bitmap, 200, 200, true);
 				
-				//Drawable d = new BitmapDrawable(getResources(), bitmap);
+				Drawable d = new BitmapDrawable(getResources(), bitmap);
 				
-				//imgViewPicture.setBackground(d);
-				
-				AlertBox.showErrorMessage(this, bitmap.getWidth() + " " + bitmap.getHeight());
-				
-				
-				imgViewPicture.setImageBitmap(bitmap);
-				//imgViewPicture.setImageDrawable(d);
-				
-				
-				AlertBox.showErrorMessage(this, imgViewPicture.getScaleType()+"");
-				
-				
-				
+				imgViewPicture.setImageDrawable(d);			
 			
 			}
 		}

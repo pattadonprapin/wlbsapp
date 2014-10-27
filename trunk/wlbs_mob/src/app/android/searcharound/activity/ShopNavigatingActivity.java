@@ -33,7 +33,9 @@ import app.android.searcharound.utility.InterfaceManager;
 import app.android.searcharound.utility.NavigationService;
 import app.android.searcharound.utility.SecurePreferences;
 
-public class ShopNavigatingActivity extends Activity implements InterfaceManager, IProcessDataAsyncListener{
+public class ShopNavigatingActivity extends Activity 
+	implements InterfaceManager, IProcessDataAsyncListener
+{
 
 	private DrawerLayout drawerLayout;
 	private ActionBarDrawerToggle drawerListner;
@@ -58,7 +60,7 @@ public class ShopNavigatingActivity extends Activity implements InterfaceManager
 			
 			listView = (ListView) findViewById(R.id.listview_nav_drawer);
 			ListView listView = (ListView) findViewById(R.id.listview_nav_drawer);
-			listView.setOnItemClickListener(new OnMenuClickListener());
+			listView.setOnItemClickListener(new OnNavClickListener());
 			
 			drawerLayout = (DrawerLayout) findViewById(R.id.layout_drawer);
 			
@@ -66,6 +68,7 @@ public class ShopNavigatingActivity extends Activity implements InterfaceManager
 			
 			drawerListner = new ActionBarDrawerToggle(this, drawerLayout, 
 					R.drawable.nav_ic, R.string.app_name, R.string.app_name)
+			
 			{
 				
 				@Override
@@ -176,7 +179,7 @@ public class ShopNavigatingActivity extends Activity implements InterfaceManager
 		
 	}
 	
-	class OnMenuClickListener implements OnItemClickListener
+	class OnNavClickListener implements OnItemClickListener
 	{
 
 		@Override

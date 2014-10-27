@@ -1,3 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
+    <issue id="InflateParams">
+        <ignore path="src/app/android/searcharound/adapter/FullScreenPromotionAdapter.java" />
+        <ignore path="src/app/android/searcharound/dialog/AccessPointAddingDialog.java" />
+        <ignore path="src/app/android/searcharound/dialog/PromotionEditingDialog.java" />
+    </issue>
 </lint>

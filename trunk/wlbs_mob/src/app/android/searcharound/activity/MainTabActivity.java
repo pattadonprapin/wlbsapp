@@ -1,6 +1,5 @@
 package app.android.searcharound.activity;
 
-
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
@@ -40,6 +39,8 @@ public class MainTabActivity extends FragmentActivity{
 		actionBar.addTab(actionBar.newTab().setText("Shop Owner").setTabListener(new TabChangeAction()));
 	
 		viewPager.setOnPageChangeListener(new PageChangeAction());
+		
+		
 	}
 
 	

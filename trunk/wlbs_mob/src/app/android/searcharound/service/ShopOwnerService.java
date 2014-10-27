@@ -147,6 +147,23 @@ public class ShopOwnerService extends CommonService
         return transport.getJSONResponse();
     }
     
+    public JSONObject addPromotion(String name, String detail, int shopId, 
+    		File picture, ProgressFileTransferListener listener) throws Exception
+    {
+        JSONObject json = new JSONObject();
+        json.put("Name", name);
+        json.put("Detail", detail);
+        json.put("ShopId", shopId);
+        
+        transport.setJSON(json);
+        transport.setFile(picture);
+        transport.setProgressListener(listener);
+        transport.setRequestCode(OPCODE.SERVICE_SAVE_PROMOTION_REQUEST);
+        transport.post();
+        
+        return transport.getJSONResponse();
+    }
+    
     public JSONObject editPromotion(int pId, String name, String detail) throws Exception
     {
         JSONObject json = new JSONObject();

@@ -7,9 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import app.android.searcharound.R;
-import app.android.searcharound.adapter.GridViewShopPictureAdapter;
 import app.android.searcharound.loader.IProcessDataAsyncListener;
 import app.android.searcharound.utility.InterfaceManager;
 

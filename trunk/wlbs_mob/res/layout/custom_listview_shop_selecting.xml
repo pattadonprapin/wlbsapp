@@ -2,15 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical" 
+    android:background="@android:color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp" >
         
 	     <FrameLayout
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
+	        android:layout_width="60dp"
+	        android:layout_height="60dp"
 	        android:layout_gravity="center_vertical" >
         
 	         <ProgressBar
@@ -26,13 +27,9 @@
 	         
 		      <ImageView
 			        android:id="@+id/imgview_shop"
-			        android:layout_width="fill_parent"
+			        android:layout_width="wrap_content"
 			        android:layout_height="wrap_content"
 			        android:layout_gravity="center_vertical"
-			        android:minWidth="50dp"
-			        android:minHeight="50dp"
-			        android:maxHeight="50dp"
-			        android:maxWidth="50dp"
 			        android:paddingLeft="5dp"
 			        android:src="@drawable/shop_icon" />
     	</FrameLayout>
@@ -55,7 +52,7 @@
 	        android:layout_width="30dp"
 	        android:layout_height="30dp"
 	        android:paddingRight="8dp"
-	      android:layout_gravity="center_vertical"
+	        android:layout_gravity="center_vertical"
 	        android:src="@drawable/delete_ic" />
     </LinearLayout>
 
